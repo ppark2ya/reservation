@@ -1,0 +1,79 @@
+@CHARSET "UTF-8";
+a{
+	text-decoration: none !important;
+}
+#hideLogo{
+	display: none;
+}
+@media(max-width: 1000px){
+	#topRightmenu, .menu, #headerlogo{
+		display: none;
+	}
+	#hideLogo{
+		margin-top:20px;
+		display: inline-block;
+	}
+	.hideMenu{
+		top: 30px;
+		left: 60px;
+		width: 24px;
+		height: 30px;
+		background-color: #808080;
+		display: inline-block;
+		position: absolute;
+	}
+	.hideMenu>div{
+		height: 10px;
+		border-top: 7px solid #fff;
+		border-right: 5px solid #fff;
+	}
+}
+#topRightMenu{
+	padding:0;
+}
+.hideMenu:hover{
+	cursor: pointer;
+}
+#headerlogo{
+	padding:0;
+}
+#headerlogo img{
+	margin-top: 20px;
+}
+.menu{
+	list-style-type: none;
+}
+.menu li{
+	margin: 0;
+	padding: 0;
+	float:left;
+	text-align: center;
+}
+.menuBtn{
+	margin-top:45px;
+	padding-right:50px;
+	font-size:15px;
+	color:#888888;
+}
+.menuBtn:hover{
+	color:red;
+}
+.subMenu div{
+	margin-left:25px;
+}
+.signin div{
+	padding-right:0;
+}
+.signout div{
+	margin-right : 5px;
+	padding: 0px;
+	display: inline-block;
+}
+.signout i{
+	padding-left: 40px;
+	color : #808080;
+}
+.signout i:hover{
+	color:red;
+	opacity: 0.6;
+}

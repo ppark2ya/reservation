@@ -1,0 +1,34 @@
+/* ----------------------------------------------------------------
+	Custom CSS
+
+	Add all your Custom Styled CSS here for New Styles or
+	Overwriting Default Theme Styles for Better Hanlding Updates
+-----------------------------------------------------------------*/
+.footer-big-contacts {
+	color: #333;
+	font-size: 16px;
+	font-weight: bold;
+	letter-spacing: 1px;
+}
+
+.footer-big-contacts span {
+	display: block;
+	font-size: 11px;
+	font-weight: 400;
+	text-transform: uppercase;
+	color: #888;
+	letter-spacing: 2px;
+}
+
+.dark .footer-big-contacts { color: rgba(255,255,255,0.8); }
+
+#copyrights a {color:#777;}
+
+.dark .footer-widgets-wrap a {
+    color: #999;
+}
+
+#footer li a {color:#999}
+#footer li a:hover {color:#aaa}
+#footer h5{margin-bottom:10px;color:#aaa;text;text-transform:uppercase;font-weight:700;letter-spacing:0.1em;}
+#footer li  {list-style:none;margin-bottom:5px;}

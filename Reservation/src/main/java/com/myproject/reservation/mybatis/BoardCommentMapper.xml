@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="boardComment">
 	<select id="getList" parameterType="int" resultType="boardCommentDto">
-		SELECT board_num, writer, content, target_id, ref_group, comment_group, regdate
-		FROM board_comment
-		WHERE ref_group=#{board_num}
-		ORDER BY comment_group ASC, board_num ASC	
+		SELECT boardSeq, writer, content, targetId, refGroup, commentGroup, regdate
+		FROM boardComment
+		WHERE refGroup=#{boardSeq}
+		ORDER BY commentGroup ASC, boardSeq ASC	
 	</select>
 	
 	<select id="getSequence" resultType="int">
@@ -14,8 +14,8 @@
 	</select>
 	
 	<insert id="insert" parameterType="boardCommentDto">
-		INSERT INTO board_comment
-		(board_num, writer, content, target_id, ref_group, comment_group, regdate)
-		VALUES(#{board_num}, #{writer}, #{content}, #{target_id}, #{ref_group}, #{comment_group}, SYSDATE)
+		INSERT INTO boardComment
+		(boardSeq, writer, content, targetId, refGroup, commentGroup, regdate)
+		VALUES(#{boardSeq}, #{writer}, #{content}, #{targetId}, #{refGroup}, #{commentGroup}, SYSDATE)
 	</insert>
 </mapper>

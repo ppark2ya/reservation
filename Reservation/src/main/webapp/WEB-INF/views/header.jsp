@@ -23,7 +23,7 @@
 			<ul class="menu">
 				<li class="subMenu">
 					<a href="board/boardlist.do">
-						<div class="menuBtn">BOARD</div>
+						<div class="menuBtn">Q&A</div>
 					</a>
 				</li>
 				

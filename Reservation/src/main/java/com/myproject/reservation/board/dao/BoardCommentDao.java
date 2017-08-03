@@ -1,5 +1,11 @@
 package com.myproject.reservation.board.dao;
 
-public interface BoardCommentDao {
+import java.util.List;
 
+import com.myproject.reservation.board.dto.BoardCommentDto;
+
+public interface BoardCommentDao {
+	public int getSequence();
+	public List<BoardCommentDto> getList(int boardSeq);
+	public void insert(BoardCommentDto dto);
 }

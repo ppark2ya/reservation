@@ -1,7 +1,7 @@
 package com.myproject.reservation.board.dto;
 
 public class BoardDto {
-	private int board_num;		// 글번호
+	private int boardSeq;		// 글번호
 	private String writer;	// 작성자
 	private String title;	// 글제목
 	private String category;
@@ -17,10 +17,10 @@ public class BoardDto {
 	// 디폴트 생성자
 	public BoardDto(){}
 
-	public BoardDto(int board_num, String writer, String title, String category, String content, int viewCount,
+	public BoardDto(int boardSeq, String writer, String title, String category, String content, int viewCount,
 			String regdate, int startRowNum, int endRowNum, int prevNum, int nextNum) {
 		super();
-		this.board_num = board_num;
+		this.boardSeq = boardSeq;
 		this.writer = writer;
 		this.title = title;
 		this.category = category;
@@ -33,12 +33,12 @@ public class BoardDto {
 		this.nextNum = nextNum;
 	}
 
-	public int getBoard_num() {
-		return board_num;
+	public int getBoardSeq() {
+		return boardSeq;
 	}
 
-	public void setBoard_num(int board_num) {
-		this.board_num = board_num;
+	public void setBoardSeq(int boardSeq) {
+		this.boardSeq = boardSeq;
 	}
 
 	public String getWriter() {
@@ -120,5 +120,6 @@ public class BoardDto {
 	public void setNextNum(int nextNum) {
 		this.nextNum = nextNum;
 	}
+
 
 }

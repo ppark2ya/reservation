@@ -10,62 +10,70 @@ package com.myproject.reservation.room;
     breakfast	char(2)					-- 조식 포함 여부(y/n)
  */
 public class RoomDto {
-	private int room_num;
-	private String room_name;
-	private int room_charge;
+	private int roomSeq;
+	private String roomName;
+	private int roomCharge;
 	private String checkOut;	
-	private int avail_guest;
+	private int availGuest;
 	private String smoking;
-	private String bath_amenity;
-	private String wifi_free;
+	private String bathAmenity;
+	private String wifiFree;
 	private String breakfast;
 	
 	public RoomDto(){}
 
-	public RoomDto(int room_num, String room_name, int room_charge, int avail_guest, String smoking,
-			String bath_amenity, String wifi_free, String breakfast, String checkOut) {
+	public RoomDto(int roomSeq, String roomName, int roomCharge, String checkOut, int availGuest, String smoking,
+			String bathAmenity, String wifiFree, String breakfast) {
 		super();
-		this.room_num = room_num;
-		this.room_name = room_name;
-		this.room_charge = room_charge;
-		this.avail_guest = avail_guest;
+		this.roomSeq = roomSeq;
+		this.roomName = roomName;
+		this.roomCharge = roomCharge;
+		this.checkOut = checkOut;
+		this.availGuest = availGuest;
 		this.smoking = smoking;
-		this.bath_amenity = bath_amenity;
-		this.wifi_free = wifi_free;
+		this.bathAmenity = bathAmenity;
+		this.wifiFree = wifiFree;
 		this.breakfast = breakfast;
+	}
+
+	public int getRoomSeq() {
+		return roomSeq;
+	}
+
+	public void setRoomSeq(int roomSeq) {
+		this.roomSeq = roomSeq;
+	}
+
+	public String getRoomName() {
+		return roomName;
+	}
+
+	public void setRoomName(String roomName) {
+		this.roomName = roomName;
+	}
+
+	public int getRoomCharge() {
+		return roomCharge;
+	}
+
+	public void setRoomCharge(int roomCharge) {
+		this.roomCharge = roomCharge;
+	}
+
+	public String getCheckOut() {
+		return checkOut;
+	}
+
+	public void setCheckOut(String checkOut) {
 		this.checkOut = checkOut;
 	}
 
-	public int getRoom_num() {
-		return room_num;
+	public int getAvailGuest() {
+		return availGuest;
 	}
 
-	public void setRoom_num(int room_num) {
-		this.room_num = room_num;
-	}
-
-	public String getRoom_name() {
-		return room_name;
-	}
-
-	public void setRoom_name(String room_name) {
-		this.room_name = room_name;
-	}
-
-	public int getRoom_charge() {
-		return room_charge;
-	}
-
-	public void setRoom_charge(int room_charge) {
-		this.room_charge = room_charge;
-	}
-
-	public int getAvail_guest() {
-		return avail_guest;
-	}
-
-	public void setAvail_guest(int avail_guest) {
-		this.avail_guest = avail_guest;
+	public void setAvailGuest(int availGuest) {
+		this.availGuest = availGuest;
 	}
 
 	public String getSmoking() {
@@ -76,20 +84,20 @@ public class RoomDto {
 		this.smoking = smoking;
 	}
 
-	public String getBath_amenity() {
-		return bath_amenity;
+	public String getBathAmenity() {
+		return bathAmenity;
 	}
 
-	public void setBath_amenity(String bath_amenity) {
-		this.bath_amenity = bath_amenity;
+	public void setBathAmenity(String bathAmenity) {
+		this.bathAmenity = bathAmenity;
 	}
 
-	public String getWifi_free() {
-		return wifi_free;
+	public String getWifiFree() {
+		return wifiFree;
 	}
 
-	public void setWifi_free(String wifi_free) {
-		this.wifi_free = wifi_free;
+	public void setWifiFree(String wifiFree) {
+		this.wifiFree = wifiFree;
 	}
 
 	public String getBreakfast() {
@@ -98,14 +106,6 @@ public class RoomDto {
 
 	public void setBreakfast(String breakfast) {
 		this.breakfast = breakfast;
-	}
-
-	public String getCheckOut() {
-		return checkOut;
-	}
-
-	public void setCheckOut(String checkOut) {
-		this.checkOut = checkOut;
 	}
 
 	

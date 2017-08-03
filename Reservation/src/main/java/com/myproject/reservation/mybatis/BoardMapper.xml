@@ -4,7 +4,7 @@
 	<select id="getList" parameterType="boardDto" resultType="boardDto">
 	SELECT *
 	FROM (SELECT result1.*, ROWNUM rnum
-		  FROM (SELECT board_num, writer, title, category, content, viewCount, regdate
+		  FROM (SELECT boardSeq, writer, title, category, content, viewCount, regdate
 			    FROM board
 			    <where>
 			    	<if test="writer != null">
@@ -20,7 +20,7 @@
 			    	OR 	category LIKE '%' || #{category} || '%'
 			    	</if>
 			    </where>
-			  ORDER BY board_num DESC
+			  ORDER BY boardSeq DESC
 			  ) result1
 		  )
 	WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
@@ -28,10 +28,10 @@
 	
 	<select id="getData" parameterType="boardDto" resultType="boardDto">
 		SELECT result1.*
-		FROM (SELECT board_num, writer, title, category, content, viewCount,
+		FROM (SELECT boardSeq, writer, title, category, content, viewCount,
 					 TO_CHAR(regdate, 'YYYY.MM.DD AM HH:MI') regdate,
-					 LAG(board_num, 1, 0) OVER(ORDER BY board_num DESC) as prevNum,
-					 LEAD(board_num, 1, 0) OVER(ORDER BY board_num DESC) as nextNum
+					 LAG(boardSeq, 1, 0) OVER(ORDER BY boardSeq DESC) as prevNum,
+					 LEAD(boardSeq, 1, 0) OVER(ORDER BY boardSeq DESC) as nextNum
 			  FROM board
 			  <where>
 			  		<if test="writer != null">
@@ -47,24 +47,24 @@
 			    	OR 	category LIKE '%' || #{category} || '%'
 			    	</if>
 			  </where>
-			  ORDER BY board_num DESC) result1
-		WHERE board_num=#{board_num} 
+			  ORDER BY boardSeq DESC) result1
+		WHERE boardSeq=#{boardSeq} 
 	</select>
 	
 	<insert id="insert" parameterType="boardDto">
 		INSERT INTO board 
-		(board_num, writer, title, category, content, viewCount, regdate)	
+		(boardSeq, writer, title, category, content, viewCount, regdate)	
 		VALUES(board_seq.NEXTVAL, #{writer}, #{title}, #{category}, #{content}, #{viewCount}, SYSDATE)
 	</insert>
 	
 	<update id="update" parameterType="boardDto">
 		UPDATE board
 		SET title=#{title}, category=#{category}, content=#{content}
-		WHERE board_num=#{board_num}	
+		WHERE boardSeq=#{boardSeq}	
 	</update>
 	
 	<delete id="delete" parameterType="int">
-		DELETE FROM board WHERE board_num=#{board_num}
+		DELETE FROM board WHERE boardSeq=#{boardSeq}
 	</delete>
 	
 	<select id="getCount" resultType="int">
@@ -75,6 +75,6 @@
 	<update id="increaseViewCount" parameterType="int">
 		UPDATE board
 		SET viewCount=viewCount+1
-		WHERE board_num=#{board_num}
+		WHERE boardSeq=#{boardSeq}
 	</update>
 </mapper>

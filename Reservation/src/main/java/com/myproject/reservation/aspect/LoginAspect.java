@@ -56,8 +56,8 @@ public class LoginAspect {
 		if(obj instanceof ModelAndView){
 			ModelAndView mView = (ModelAndView)obj;
 			if(!isLogin){
-				mView.setViewName("alert");
-				mView.addObject("msg", "로그인이 필요합니다");
+//				mView.setViewName("alert");
+//				mView.addObject("msg", "로그인이 필요합니다");
 				String url = request.getRequestURI();
 				String cPath = request.getContextPath();
 				String redirectUrl = cPath + "/customer/signin_form.do?url=" + url;

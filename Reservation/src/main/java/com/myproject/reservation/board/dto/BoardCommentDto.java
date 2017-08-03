@@ -1,34 +1,34 @@
 package com.myproject.reservation.board.dto;
 
 public class BoardCommentDto {
-	private int board_num;		// 댓글의 글번호
+	private int boardSeq;		// 댓글의 글번호
 	private String writer;
 	private String content;
-	private String target_id;	// 댓글의 대상이 되는 아이디
-	private	int ref_group;		// 댓글 그룹
-	private int comment_group;	// 어떤 댓글에 대한 댓글들의 그룹 번호 
+	private String targetId;	// 댓글의 대상이 되는 아이디
+	private	int refGroup;		// 댓글 그룹
+	private int commentGroup;	// 어떤 댓글에 대한 댓글들의 그룹 번호 
 	private String regdate;
 	
 	public BoardCommentDto(){}
 
-	public BoardCommentDto(int board_num, String writer, String content, String target_id, int ref_group, int comment_group,
+	public BoardCommentDto(int boardSeq, String writer, String content, String targetId, int refGroup, int commentGroup,
 			String regdate) {
 		super();
-		this.board_num = board_num;
+		this.boardSeq = boardSeq;
 		this.writer = writer;
 		this.content = content;
-		this.target_id = target_id;
-		this.ref_group = ref_group;
-		this.comment_group = comment_group;
+		this.targetId = targetId;
+		this.refGroup = refGroup;
+		this.commentGroup = commentGroup;
 		this.regdate = regdate;
 	}
 
-	public int getBoard_num() {
-		return board_num;
+	public int getBoardSeq() {
+		return boardSeq;
 	}
 
-	public void setBoard_num(int board_num) {
-		this.board_num = board_num;
+	public void setBoardSeq(int boardSeq) {
+		this.boardSeq = boardSeq;
 	}
 
 	public String getWriter() {
@@ -47,28 +47,28 @@ public class BoardCommentDto {
 		this.content = content;
 	}
 
-	public String getTarget_id() {
-		return target_id;
+	public String getTargetId() {
+		return targetId;
 	}
 
-	public void setTarget_id(String target_id) {
-		this.target_id = target_id;
+	public void setTargetId(String targetId) {
+		this.targetId = targetId;
 	}
 
-	public int getRef_group() {
-		return ref_group;
+	public int getRefGroup() {
+		return refGroup;
 	}
 
-	public void setRef_group(int ref_group) {
-		this.ref_group = ref_group;
+	public void setRefGroup(int refGroup) {
+		this.refGroup = refGroup;
 	}
 
-	public int getComment_group() {
-		return comment_group;
+	public int getCommentGroup() {
+		return commentGroup;
 	}
 
-	public void setComment_group(int comment_group) {
-		this.comment_group = comment_group;
+	public void setCommentGroup(int commentGroup) {
+		this.commentGroup = commentGroup;
 	}
 
 	public String getRegdate() {
@@ -78,7 +78,6 @@ public class BoardCommentDto {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
-	
-	
+
 }
 

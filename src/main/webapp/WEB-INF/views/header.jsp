@@ -23,10 +23,10 @@
 			<ul class="menu">
 				<li class="subMenu">
 					<a href="board/boardlist.do">
-						<div class="menuBtn">Q&A</div>
+						<div class="menuBtn">Q&amp;A</div>
 					</a>
 				</li>
-				
+
 				<c:if test="${empty sessionScope.id }">
 					<li class="signup">
 						<a href="customer/signupform.do">
@@ -39,7 +39,7 @@
 						</a>
 					</li>
 				</c:if>
-				
+
 				<c:if test="${not empty id }">
 					<li class="signout">
 						<a href="customer/signout.do">
@@ -49,8 +49,8 @@
 							<i class="glyphicon glyphicon-user"></i>
 						</a>
 					</li>
-				</c:if>	
-				
+				</c:if>
+
 			</ul>
 		</div>
 	</div>

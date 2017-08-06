@@ -50,15 +50,15 @@
 	        <div class="form-group">
 	          <label class="col-sm-3 control-label" for="pwd">Password</label>
 		        <div class="col-sm-6">
-		        	<input class="form-control" value="${dto.pwd }" id="pwd" name="pwd" type="password" placeholder="Enter your password">
+		        	<input class="form-control" id="pwd" name="pwd" type="password" placeholder="Enter your password">
 		        	<p class="help-block">Use at least one lowercase letter, one numeral, and seven characters.</p>
 		        </div>
 	        </div>
 	        <div class="form-group">
 	          <label class="col-sm-3 control-label" for="pwd2">Password</label>
 		        <div class="col-sm-6">
-		        	<input class="form-control" value="${dto.pwd }" id="pwd2" name="pwd2" type="password" placeholder="re-Enter your password">
-		        	<p class="help-block">Use at least one lowercase letter, one numeral, and seven characters.</p>
+		        	<input class="form-control" id="pwd2" name="pwd2" type="password" placeholder="re-Enter your password">
+		        	<p class="help-block">Use at least one special letter, one numeral, and six characters.</p>
 		        </div>
 	        </div>
 	        <div class="form-group">
@@ -76,7 +76,7 @@
 		          <span class="glyphicon glyphicon-ok form-control-feedback"></span>
 		          <p class="help-block">Please re-enter your email</p>
 		        </div>
-	        </div> 
+	        </div>
 
 	        <div class="form-group">
 	          <div class="col-sm-12 text-center">
@@ -98,14 +98,11 @@
 	// 전화번호 검증 통과 여부
 	var isNumberValid = false;
 
-//    	$('#myForm').on('submit', function(){
-//    		// 이메일 형식이 유효하지 않으면 
-//    		if(!isEmailValid && !isNumberValid){
-//    			// 폼전송 막기
-//    			return false;
-//    		}
-//    	});
-   	
+	// 비밀번호를 검증할 정규 표현식
+	var reg3 = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{6,20}$/;;
+	// 비밀번호 검증 통과 여부
+	var isPwdValid = false;
+
 	document.querySelector("#myForm")
 	.addEventListener("submit", function(event){
 		var inputPwd = document.querySelector("#pwd").value;
@@ -151,8 +148,23 @@
    		changeButtonState();
    	});
 
+   	$('#pwd').keyup(function(){
+   		// 입력한 비밀번호를 읽어온다.
+   		var inputPwd = $(this).val();
+
+   		// 정규표현식으로 검증한다.
+   		if(reg3.test(inputPwd)){
+   			makeSuccess($(this));
+   			isPwdValid = true;
+   		}else{
+   			makeError($(this));
+   			isPwdValid = false;
+   		}
+   		changeButtonState();
+   	});
+
 	function changeButtonState(){
-		if(isEmailValid && isNumberValid){
+		if(isEmailValid && isNumberValid && isPwdValid){
 			$('#join')
 			.removeAttr('disabled');
 		}else{

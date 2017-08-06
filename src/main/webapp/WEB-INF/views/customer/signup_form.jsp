@@ -31,7 +31,7 @@
         		<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" id="headerlogo">
         	</a>
         </div>
-        <form action="signup.do" method="post" id="myForm" class="form-horizontal">
+        <form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal">
 	        <div class="form-group has-feedback">
 	            <label class="col-sm-3 control-label" for="id">ID</label>
 	          	<div class="col-sm-6">
@@ -44,7 +44,8 @@
 	          <label class="col-sm-3 control-label" for="pwd">Password</label>
 		        <div class="col-sm-6">
 		        	<input class="form-control" id="pwd" name="pwd" type="password" placeholder="Enter your password">
-		        	<p class="help-block">Use at least one lowercase letter, one numeral, and seven characters.</p>
+		        	<p class="help-block">Use at least one special letter, one numeral, and six characters.</p>
+	          		<span class="glyphicon glyphicon-ok form-control-feedback"></span>
 		        </div>
 	        </div>
 	        <div class="form-group">
@@ -68,7 +69,7 @@
 		          <span class="glyphicon glyphicon-ok form-control-feedback"></span>
 		          <p class="help-block">Please re-enter your email</p>
 		        </div>
-	        </div> 
+	        </div>
 
 	        <div class="form-group">
 	          <div class="col-sm-12 text-center">
@@ -90,12 +91,17 @@
 	// 전화번호 검증 통과 여부
 	var isNumberValid = false;
 
+	// 비밀번호를 검증할 정규 표현식
+	var reg3 = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{6,20}$/;
+	// 비밀번호 검증 통과 여부
+	var isPwdValid = false;
+
    	$("#join").click(function(){
     	alert("Complete!!");
 //     	location.href ="${pageContext.request.contextPath }/home.do";
    	});
 
-  	//아이디 입력란에 keyup 이벤트가 발생했을때 실행할 함수 등록 
+  	//아이디 입력란에 keyup 이벤트가 발생했을때 실행할 함수 등록
 	$("#id").on("keyup", function(){
 		//입력한 아이디 읽어오기
 		var inputId=$("#id").val();
@@ -104,7 +110,7 @@
 			url:"checkid.do",
 			method:"get",
 			data:{inputId:inputId},
-			
+
 			success:function(data){
 				console.log(data);
 				$("#id").parent()
@@ -133,10 +139,10 @@
 			}
 		});
 	});
-  	
+
    	$('#myForm').on('submit', function(){
-   		// 이메일 형식이 유효하지 않으면 
-   		if(!isEmailValid && !isNumberValid){
+   		// 이메일 형식이 유효하지 않으면
+   		if(!isEmailValid && !isNumberValid && !isPwdValid){
    			// 폼전송 막기
    			return false;
    		}
@@ -171,6 +177,21 @@
    		}else{
    			makeError($(this));
    			isNumberValid = false;
+   		}
+   		changeButtonState();
+   	});
+
+   	$('#pwd').keyup(function(){
+   		// 입력한 비밀번호를 읽어온다.
+   		var inputPwd = $(this).val();
+
+   		// 정규표현식으로 검증한다.
+   		if(reg3.test(inputPwd)){
+   			makeSuccess($(this));
+   			isPwdValid = true;
+   		}else{
+   			makeError($(this));
+   			isPwdValid = false;
    		}
    		changeButtonState();
    	});

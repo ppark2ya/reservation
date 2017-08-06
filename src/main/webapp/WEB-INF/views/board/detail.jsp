@@ -149,21 +149,21 @@
 	</div>
 </article>
 <script>
-	var isLogin=${isLogin};
+// 	var isLogin=${isLogin};
 
-	//덧글 전송 이벤트가 일어 났을때 실행할 함수 등록
-	$(".comment_form > form, .comment form").submit(function(){
-		if(!isLogin){//만일 로그인 하지 않았다면
-			alert("로그인이 필요 합니다.");
-			//로그인 페이지로 이동
-			location.href="${pageContext.request.contextPath}"+
-			"/customer/signinform.do"+
-			"?url=${pageContext.request.contextPath}"+
-			"/board/detail.do?boardSeq=${dto.boardSeq}";
+// 	//덧글 전송 이벤트가 일어 났을때 실행할 함수 등록
+// 	$(".comment_form > form, .comment form").submit(function(){
+// 		if(!isLogin){//만일 로그인 하지 않았다면
+// 			alert("로그인이 필요 합니다.");
+// 			//로그인 페이지로 이동
+// 			location.href="${pageContext.request.contextPath}"+
+// 			"/customer/signinform.do"+
+// 			"?url=${pageContext.request.contextPath}"+
+// 			"/board/detail.do?boardSeq=${dto.boardSeq}";
 
-			return false; //폼전송 막기
-		}
-	});
+// 			return false; //폼전송 막기
+// 		}
+// 	});
 
 	//덧글 달기 혹은 취소 버튼을 눌렀을때 실행할 함수 등록
 	$(".comment a").click(function(){

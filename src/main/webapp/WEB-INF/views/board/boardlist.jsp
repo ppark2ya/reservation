@@ -61,9 +61,6 @@
        	<a class="btn" href="writeform.do">
        		<i id="writeBtn" class="glyphicon glyphicon-pencil" style="font-size:15px;">글쓰기</i>
        	</a>
-<!--    <a class="btn" href="#" onClick="sendMsg(); return false;"> -->
-<!--        <i id="writeBtn" class="glyphicon glyphicon-pencil" style="font-size:15px;">글쓰기</i> -->
-<!--    </a> -->
     </div>
 
     <table class="table table-hover" id="list">
@@ -121,7 +118,7 @@
 					</li>
 				</c:otherwise>
 			</c:choose>
-			
+
 			<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
 				<c:choose>
 					<c:when test="${i eq pageNum }">
@@ -151,12 +148,5 @@
 		</ul>
     </div>
 </div>
-<script>
-	var sendMsg = function(){
-		alert("로그인 후 이용바랍니다");
-		//location.href = "${pageContext.request.contextPath }/customer/signinform.do";
-	}
-	
-</script>
 </body>
 </html>

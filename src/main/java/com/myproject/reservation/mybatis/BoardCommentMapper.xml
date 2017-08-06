@@ -21,7 +21,7 @@
 	</select>
 
 	<insert id="insert" parameterType="boardCommentDto">
-		INSERT INTO boardComment
+		INSERT INTO board_comment
 		(board_seq, writer, content, target_id, ref_group, comment_group, regdate)
 		VALUES(#{boardSeq}, #{writer}, #{content}, #{targetId}, #{refGroup}, #{commentGroup}, SYSDATE)
 	</insert>

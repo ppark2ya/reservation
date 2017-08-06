@@ -5,11 +5,13 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myproject.reservation.board.dto.BoardDto;
 import com.myproject.reservation.customer.dto.CustomerDto;
 
 public interface CustomerService {
-	public void signup(CustomerDto dto);
-	public ModelAndView signin(CustomerDto dto, HttpServletRequest request);
+	public ModelAndView signUp(CustomerDto dto, String url, HttpSession session);
+	public ModelAndView signIn(CustomerDto custDto, BoardDto boardDto,
+			HttpServletRequest request, String url);
 	public void delete(HttpSession session);
 	public boolean canUseId(String id);
 	public void update(CustomerDto dto);

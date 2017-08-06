@@ -8,7 +8,10 @@ public class BoardDto {
 	private String content;	// 글내용
 	private int viewCount;
 	private String regdate;	// 작성일
-	
+
+	private String keyword;
+	private String condition;
+	private int pageNum;
 	private int startRowNum; // 시작 row 번호
 	private int endRowNum;	 // 끝 row 번호
 	private int prevNum;	// 이전 글의 글 번호
@@ -18,7 +21,8 @@ public class BoardDto {
 	public BoardDto(){}
 
 	public BoardDto(int boardSeq, String writer, String title, String category, String content, int viewCount,
-			String regdate, int startRowNum, int endRowNum, int prevNum, int nextNum) {
+			String regdate, String keyword, String condition, int pageNum, int startRowNum, int endRowNum, int prevNum,
+			int nextNum) {
 		super();
 		this.boardSeq = boardSeq;
 		this.writer = writer;
@@ -27,6 +31,9 @@ public class BoardDto {
 		this.content = content;
 		this.viewCount = viewCount;
 		this.regdate = regdate;
+		this.keyword = keyword;
+		this.condition = condition;
+		this.pageNum = pageNum;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
 		this.prevNum = prevNum;
@@ -89,6 +96,30 @@ public class BoardDto {
 		this.regdate = regdate;
 	}
 
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public String getCondition() {
+		return condition;
+	}
+
+	public void setCondition(String condition) {
+		this.condition = condition;
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+
 	public int getStartRowNum() {
 		return startRowNum;
 	}
@@ -120,6 +151,7 @@ public class BoardDto {
 	public void setNextNum(int nextNum) {
 		this.nextNum = nextNum;
 	}
+
 
 
 }

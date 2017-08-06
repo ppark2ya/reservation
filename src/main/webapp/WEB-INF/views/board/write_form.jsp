@@ -81,20 +81,20 @@
 		},
 		fCreator : "createSEditor2"
 	});
-	
-	//네이버 에디터 작성 데이터 전송하기 
+
+	//네이버 에디터 작성 데이터 전송하기
 	$("#saveBtn").click(function() {
 		oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", []);
 		// 에디터의 내용이 textarea에 적용됩니다.
-		
+
 		// 에디터의 내용에 대한 값 검증은 이곳에서 document.getElementById("ir1").value를 이용해서 처리하면 됩니다.
 		$("#myForm").submit();
 	});
-	
+
 	$("#cancleBtn").click(function(){
-		location.href="${pageContext.request.contextPath}/boardlist.do";
+		location.href="${pageContext.request.contextPath}/board/boardlist.do";
 	})
-		
+
 // 		$("#submitModifyBoardBtn").click(function() {
 // 			oEditors.getById["smartEditor"].exec("UPDATE_CONTENTS_FIELD", []);
 // 		});

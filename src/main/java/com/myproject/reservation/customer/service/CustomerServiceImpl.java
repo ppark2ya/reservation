@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myproject.reservation.board.dto.BoardDto;
 import com.myproject.reservation.customer.dao.CustomerDao;
 import com.myproject.reservation.customer.dto.CustomerDto;
 
@@ -15,21 +16,46 @@ public class CustomerServiceImpl implements CustomerService{
 
 	@Autowired
 	private CustomerDao customerDao;
-	
+
 	@Override
-	public void signup(CustomerDto dto) {
-		customerDao.insert(dto);
+	public ModelAndView signUp(CustomerDto dto, String url, HttpSession session) {
+		ModelAndView mView = new ModelAndView();
+		if(url.equals("")){
+			customerDao.insert(dto);
+			mView.setViewName("redirect:/home.do");
+		}else{
+			customerDao.insert(dto);
+			session.setAttribute("id", dto.getId());
+			mView.setViewName("redirect:"+url);
+		}
+		return mView;
 	}
 
 	@Override
-	public ModelAndView signin(CustomerDto dto, HttpServletRequest request) {
-		boolean isValid = customerDao.isValid(dto);
+	public ModelAndView signIn(CustomerDto custDto, BoardDto boardDto,
+			HttpServletRequest request, String url) {
+		int boardSeq = boardDto.getBoardSeq();
+		String keyword = boardDto.getKeyword();
+		String condition = boardDto.getCondition();
+		boolean isValid = customerDao.isValid(custDto);
 		ModelAndView mView = new ModelAndView();
 		if(!isValid){
-			mView.setViewName("/customer/signin_error");
+			mView.setViewName("customer/signin_error");
 		}else{
-			request.getSession().setAttribute("id", dto.getId());
-			mView.setViewName("redirect:/home.do");
+			request.getSession().setAttribute("id", custDto.getId());
+			if(url.equals("")){
+				mView.setViewName("redirect:/home.do");
+			}else{
+				if(boardSeq == 0){
+					mView.setViewName("redirect:"+url);
+				}else{
+					String redirectUrl = url
+							+ "?boardSeq=" + boardSeq
+							+ "&keywowrd=" + keyword
+							+ "&condition=" + condition;
+					mView.setViewName("redirect:"+redirectUrl);
+				}
+			}
 		}
 		return mView;
 	}

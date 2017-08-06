@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myproject.reservation.board.dto.BoardDto;
 import com.myproject.reservation.customer.dto.CustomerDto;
 import com.myproject.reservation.customer.service.CustomerService;
 
@@ -23,12 +24,12 @@ import com.myproject.reservation.customer.service.CustomerService;
 public class CustomerController {
 	@Autowired
 	private CustomerService customerService;
-	
+
 	@RequestMapping("/customer/signupform")
-	public String signupform(){
+	public String signUpForm(){
 		return "customer/signup_form";
 	}
-	
+
 	@RequestMapping("/customer/checkid")
 	@ResponseBody
 	public Map<String, Object> checkId(@RequestParam String inputId){
@@ -37,14 +38,18 @@ public class CustomerController {
 		map.put("canUse", canUse);
 		return map;
 	}
+
 	@RequestMapping("/customer/signup")
-	public String signup(@ModelAttribute CustomerDto dto){
-		customerService.signup(dto);
-		return "redirect:/home.do";
+	public ModelAndView enCryptsignUp(ModelAndView mView,
+			@ModelAttribute CustomerDto dto,
+			@RequestParam(defaultValue="") String url,
+			HttpSession session){
+		mView = customerService.signUp(dto, url, session);
+		return mView;
 	}
-	
+
 	@RequestMapping("/customer/signinform")
-	public String signinform(HttpServletRequest request){
+	public ModelAndView signInForm(ModelAndView mView, HttpServletRequest request){
 		String savedId = "";
 		Cookie[] cookie = request.getCookies();
 		if(cookie != null && cookie.length > 0){
@@ -54,40 +59,52 @@ public class CustomerController {
 				}
 			}
 		}
-		request.setAttribute("savedId", savedId);
-		return "customer/signin_form";
+		mView.addObject("saveId", savedId);
+		mView.setViewName("customer/signin_form");
+		return mView;
 	}
-	
+
 	@RequestMapping("/customer/signin")
-	public ModelAndView signin(@ModelAttribute CustomerDto dto, HttpServletRequest request,
-			HttpServletResponse response){
+	public ModelAndView enCryptsignIn(@ModelAttribute CustomerDto custDto,
+			@RequestParam(defaultValue="") String url,
+			BoardDto boardDto,
+			@RequestParam(value="boardSeq", required=false) Integer boardSeq,
+			@RequestParam(defaultValue="") String keyword,
+			@RequestParam(defaultValue="") String condition,
+			ModelAndView mView, HttpServletRequest request, HttpServletResponse response){
 		String isSave = request.getParameter("isSave");
 		if(isSave != null){
-			Cookie cookie = new Cookie("savedId", dto.getId());
+			Cookie cookie = new Cookie("savedId", custDto.getId());
 			cookie.setMaxAge(60);
 			response.addCookie(cookie);
 		}
-		ModelAndView mView = customerService.signin(dto, request);
+		if(boardSeq == null){
+			boardSeq = 0;
+		}
+		boardDto.setBoardSeq(boardSeq);
+		boardDto.setKeyword(keyword);
+		boardDto.setCondition(condition);
+		mView = customerService.signIn(custDto, boardDto, request, url);
 		return mView;
 	}
-	
+
 	@RequestMapping("/customer/signout")
-	public String signout(HttpSession session){
+	public String signOut(HttpSession session){
 		session.invalidate();
 		return "redirect:/home.do";
 	}
 
 	@RequestMapping("/customer/forgetpasswordform")
-	public String forgetpasswordform(){
+	public String forgetPasswordForm(){
 		return "customer/forgetpassword_form";
 	}
-	
+
 	@RequestMapping("/customer/resetpassword")
-	public String resetpassword(@ModelAttribute CustomerDto dto){
+	public String enCryptresetPassword(@ModelAttribute CustomerDto dto){
 		customerService.modifyPwd(dto);
 		return "customer/signin_form";
 	}
-	
+
 	// AOP 오류존재
 	@RequestMapping("/customer/mypage")
 	public ModelAndView idCheckMypage(HttpSession session){
@@ -95,24 +112,27 @@ public class CustomerController {
 		mView.setViewName("customer/myPage");
 		return mView;
 	}
-	
+
 	@RequestMapping("/customer/updateform")
-	public ModelAndView privateUpdateform(@ModelAttribute CustomerDto dto, HttpServletRequest request){
+	public ModelAndView privateUpdateForm(@ModelAttribute CustomerDto dto, HttpServletRequest request){
 		String id = (String)request.getSession().getAttribute("id");
 		ModelAndView mView = customerService.detail(id);
 		mView.setViewName("customer/update_form");
 		return mView;
 	}
-	
+
 	@RequestMapping("/customer/update")
-	public String privateUpdate(@ModelAttribute CustomerDto dto, HttpServletRequest request){
+	public ModelAndView enCryptUpdate(ModelAndView mView,
+			@ModelAttribute CustomerDto dto){
 		customerService.update(dto);
-		return "redirect:/customer/mypage.do";
+		mView.setViewName("redirect:/customer/mypage.do");
+		return mView;
 	}
-	
+
 	@RequestMapping("/customer/dropout")
-	public String privateDropout(HttpServletRequest request){
+	public ModelAndView privateDropout(ModelAndView mView, HttpServletRequest request){
 		customerService.delete(request.getSession());
-		return "redirect:/home.do";
+		mView.setViewName("redirect:/home.do");
+		return mView;
 	}
 }

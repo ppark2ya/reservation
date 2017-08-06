@@ -22,10 +22,12 @@ public class BoardServiceImpl implements BoardService{
 	private BoardCommentDao boardCommentDao;
 
 	@Override
-	public ModelAndView boardList(BoardDto dto, String keyword, String condition, String pageNum) {
+	public ModelAndView boardList(BoardDto dto) {
 		int pageRowCount = 10;
 		int pageDisplayCount = 5;
 		ModelAndView mView = new ModelAndView();
+		String keyword = dto.getKeyword();
+		String condition = dto.getCondition();
 		if(keyword != null){	// 검색어가 전달된 경우
 			if(condition.equals("titlecontent")){	// 제목+내용 검색
 				dto.setTitle(keyword);
@@ -42,24 +44,17 @@ public class BoardServiceImpl implements BoardService{
 			mView.addObject("keyword", keyword);
 		}
 		// 보여줄 페이지 번호
-		int page = 1;
-		// 보여줄 페이지의 번호가 파라미터로 전달되는지 읽어온다.
-		String strPageNum = pageNum;
-		// 페이지 번호가 파라미터로 넘어왔다면
-		if(strPageNum != null){
-			// 페이지 번호를 설정한다.
-			page = Integer.parseInt(strPageNum);
-		}
+		int pageNum = dto.getPageNum();
 		// 보여줄 페이지 데이터의 시작 ResultSet row 번호
-		int startRowNum = 1 + (page-1)*pageRowCount;
+		int startRowNum = 1 + (pageNum-1)*pageRowCount;
 		// 보여줄 페이지 데이터의 끝 ResultSet row 번호
-		int endRowNum = page*pageRowCount;
+		int endRowNum = pageNum*pageRowCount;
 		// 전체 row 의 갯수를 DB 에서 얻어온다.
 		int totalRow = boardDao.getCount();
 		// 전체 페이지의 갯수 구하기
 		int totalPageCount = (int)Math.ceil(totalRow/(double)pageRowCount);
 		// 시작 페이지 번호
-		int startPageNum = 1+((page-1)/pageDisplayCount)*pageDisplayCount;
+		int startPageNum = 1+((pageNum-1)/pageDisplayCount)*pageDisplayCount;
 		// 끝 페이지 번호
 		int endPageNum = startPageNum+pageDisplayCount-1;
 		// 끝 페이지 번호가 잘못된 값이라면
@@ -77,19 +72,21 @@ public class BoardServiceImpl implements BoardService{
 		mView.addObject("list", list);
 
 		// 현재 페이지 번호
-		mView.addObject("pageNum", page);
+		mView.addObject("pageNum", pageNum);
 		mView.addObject("startPageNum", startPageNum);
 		mView.addObject("endPageNum", endPageNum);
 		// 전체 페이지의 갯수
 		mView.addObject("totalPageCount", totalPageCount);
+		mView.setViewName("board/boardlist");
 		return mView;
 	}
+
 	@Override
-	public ModelAndView detail(int boardSeq, HttpServletRequest request) {
+	public ModelAndView detail(BoardDto dto) {
 		ModelAndView mView = new ModelAndView();
-		String keyword = request.getParameter("keyword");
-		String condition = request.getParameter("condition");
-		BoardDto dto = new BoardDto();
+		int boardSeq = dto.getBoardSeq();
+		String keyword = dto.getKeyword();
+		String condition = dto.getCondition();
 		if(keyword != null){ //검색어가 전달된 경우
 			if(condition.equals("titlecontent")){ //제목+내용 검색
 				dto.setTitle(keyword);
@@ -108,11 +105,12 @@ public class BoardServiceImpl implements BoardService{
 		List<BoardCommentDto> commentList = boardCommentDao.getList(boardSeq);
 		mView.addObject("dto", resultDto);
 		mView.addObject("commentList", commentList);
+		mView.setViewName("board/detail");
 		return mView;
 	}
 
 	@Override
-	public ModelAndView detail(BoardDto dto) {
+	public ModelAndView getData(BoardDto dto) {
 		BoardDto resultDto = boardDao.getData(dto);
 		ModelAndView mView = new ModelAndView();
 		mView.addObject("dto", resultDto);
@@ -125,7 +123,7 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public void commentInsert(BoardCommentDto dto) {
+	public ModelAndView commentInsert(BoardCommentDto dto) {
 		// 저장할 댓글의 번호를 미리 가져온다.
 		int seq = boardCommentDao.getSequence();
 		// 글 번호로 사용한다
@@ -137,6 +135,8 @@ public class BoardServiceImpl implements BoardService{
 			dto.setCommentGroup(seq);
 		}
 		boardCommentDao.insert(dto);
+		ModelAndView mView = new ModelAndView("redirect:/board/detail.do?boardSeq="+dto.getRefGroup());
+		return mView;
 	}
 
 	@Override

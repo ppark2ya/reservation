@@ -1,0 +1,4 @@
+target folder : 컴파일된 .class 파일들이 저장된다.
+ctrl + o : 현재 클래스에서 사용중인 메소드 목록 출력
+ctrl + alt + h : 커서가 위치한 메소드가 사용되고있는 모든 위치들 출력
+서버 컴파일 : server run 말고 debug 실행 f5~

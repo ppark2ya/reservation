@@ -9,4 +9,7 @@ public interface BoardDao {
 	public int getCount();
 	public BoardDto getData(BoardDto dto);
 	public void increaseViewCount(int boardSeq);
+	public void delete(int boardSeq);
+	public void update(BoardDto dto);
+	public void insert(BoardDto dto);
 }

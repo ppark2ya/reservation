@@ -33,4 +33,19 @@ public class BoardDaoImpl implements BoardDao{
 	public void increaseViewCount(int boardSeq) {
 		session.update("board.increaseViewCount", boardSeq);
 	}
+
+	@Override
+	public void delete(int boardSeq) {
+		session.delete("board.delete", boardSeq);
+	}
+
+	@Override
+	public void update(BoardDto dto) {
+		session.update("board.update", dto);
+	}
+
+	@Override
+	public void insert(BoardDto dto) {
+		session.insert("board.insert", dto);
+	}
 }

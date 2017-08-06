@@ -69,6 +69,12 @@
 				<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" id="headerlogo">
 			</a>
 		</div>
+		<c:if test="${dto.prevNum ne 0 }">
+			<a href="detail.do?boardSeq=${dto.prevNum}&condition=${condition}&keyword=${keyword}">이전글</a> |
+		</c:if>
+		<c:if test="${dto.nextNum ne 0 }">
+			<a href="detail.do?boardSeq=${dto.nextNum}&condition=${condition}&keyword=${keyword}">다음글</a>
+		</c:if>
 		<a href="boardlist.do">
 			<div class="col-xs-offset-11">
 				목록<i class="fa fa-list" aria-hidden="true"></i>
@@ -86,24 +92,24 @@
 			<hr align="center"/>
 			<div class="form-group">
 				<div style="padding-left:20px;">${dto.content }</div>
-			</div>	
-		</form> 
-		
+			</div>
+		</form>
+
 		<!-- 댓글 UI -->
 		<div class="comments">
 			<c:forEach var="tmp" items="${commentList }">
-				<div class="comment" <c:if test="${tmp.boardSeq ne tmp.commentGroup }">style="margin-left:100px"</c:if> >	
+				<div class="comment" <c:if test="${tmp.boardSeq ne tmp.commentGroup }">style="margin-left:100px"</c:if> >
 					<c:if test="${tmp.boardSeq ne tmp.commentGroup }">
 						<div class="reply_icon"></div>
 					</c:if>
-					<div>		
+					<div>
 						<strong>from ${tmp.writer }</strong>
 						${tmp.regdate }<br/>
 						<strong>to ${tmp.targetId }</strong>
 						<a href="javascript:">답글</a>
 					</div>
 					<textarea rows="5" disabled>${tmp.content }</textarea><br/>
-					<form action="comment_insert.do" method="post">
+					<form action="commentInsert.do" method="post">
 						<!-- 덧글 작성자 -->
 						<input type="hidden" name="writer" value="${id }"/>
 						<!-- 덧글 그룹 -->
@@ -115,16 +121,16 @@
 						<button type="submit">등록</button>
 					</form>
 				</div>
-				
+
 			</c:forEach>
-		
+
 			<div class="comment_form">
-				<form action="comment_insert.do" method="post">
-					<!-- 덧글 작성자 -->
+				<form action="commentInsert.do" method="post">
+<!-- 					덧글 작성자 -->
 					<input type="hidden" name="writer" value="${id }"/>
-					<!-- 덧글 그룹 -->
+<!-- 					덧글 그룹 -->
 					<input type="hidden" name="refGroup" value="${dto.boardSeq }" />
-					<!-- 덧글 대상 -->
+<!-- 					덧글 대상 -->
 					<input type="hidden" name="targetId" value="${dto.writer }" />
 					<textarea name="content"></textarea>
 					<button type="submit">등록</button>
@@ -135,8 +141,8 @@
 		<c:if test="${sessionScope.id eq dto.writer }">
 			<div class="boardBtn">
 		    	<div class="col-sm-12 text-center">
-		        	<a class="btn btn-info" href="members/updateform.do?board_num=${dto.board_num }&writer=${dto.writer}&title=${dto.title}&content=${dto.content}">Modify</a>
-		          	<a class="btn btn-danger" href="#" onclick="dropOut(); return;">Delete</a>
+		        	<a class="btn btn-info" href="updateform.do?boardSeq=${dto.boardSeq }&writer=${dto.writer}&title=${dto.title}&content=${dto.content}">Modify</a>
+		          	<a class="btn btn-danger" href="#" onclick="deleteContent(); return;">Delete</a>
 		        </div>
 			</div>
 		</c:if>
@@ -144,22 +150,22 @@
 </article>
 <script>
 	var isLogin=${isLogin};
-	
-	//덧글 전송 이벤트가 일어 났을때 실행할 함수 등록 
+
+	//덧글 전송 이벤트가 일어 났을때 실행할 함수 등록
 	$(".comment_form > form, .comment form").submit(function(){
-		if(!isLogin){//만일 로그인 하지 않았다면 
+		if(!isLogin){//만일 로그인 하지 않았다면
 			alert("로그인이 필요 합니다.");
-			//로그인 페이지로 이동 
+			//로그인 페이지로 이동
 			location.href="${pageContext.request.contextPath}"+
 			"/customer/signinform.do"+
 			"?url=${pageContext.request.contextPath}"+
 			"/board/detail.do?boardSeq=${dto.boardSeq}";
-			
-			return false; //폼전송 막기 
+
+			return false; //폼전송 막기
 		}
 	});
-	
-	//덧글 달기 혹은 취소 버튼을 눌렀을때 실행할 함수 등록 
+
+	//덧글 달기 혹은 취소 버튼을 눌렀을때 실행할 함수 등록
 	$(".comment a").click(function(){
 		if($(this).text()=="답글"){
 			$(this)
@@ -167,7 +173,7 @@
 			.parent()
 			.parent()
 			.find("form")
-			.slideToggle();	
+			.slideToggle();
 		}else{
 			$(this)
 			.text("답글")
@@ -177,7 +183,7 @@
 			.slideToggle();
 		}
 	});
-	var dropOut = function(){
+	var deleteContent = function(){
 		var isDelete = confirm("삭제하시겠습니까?");
 		if(isDelete){
 			location.href = "delete.do?boardSeq=${dto.boardSeq}";

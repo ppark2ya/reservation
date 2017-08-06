@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<select id="getList" parameterType="boardDto" resultType="boardDto">
+	SELECT *
+	FROM (SELECT result1.*, ROWNUM rnum
+		  FROM (SELECT 	board_seq AS boardSeq, 
+		  				writer, 
+		  				title, 
+		  				category, 
+		  				content, 
+		  				viewCount, 
+		  				regdate
+			    FROM board
+			    <where>
+			    	<if test="writer != null">
+			    	OR	writer LIKE '%' || #{writer} || '%'
+			    	</if>
+			    	<if test="title != null">
+			    	OR 	title LIKE '%' || #{title} || '%'
+			    	</if>
+			    	<if test="content != null">
+			    	OR 	content LIKE '%' || #{content} || '%'
+			    	</if>
+			    	<if test="category != null">
+			    	OR 	category LIKE '%' || #{category} || '%'
+			    	</if>
+			    </where>
+			  ORDER BY boardSeq DESC
+			  ) result1
+		  )
+	WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+	<select id="getData" parameterType="boardDto" resultType="boardDto">
+		SELECT result1.*
+		FROM (SELECT board_seq AS boardSeq, 
+					 writer, 
+					 title, 
+					 category, 
+					 content, 
+					 viewCount,
+					 TO_CHAR(regdate, 'YYYY.MM.DD AM HH:MI') regdate,
+					 LAG(board_seq, 1, 0) OVER(ORDER BY board_seq DESC) as prevNum,
+					 LEAD(board_seq, 1, 0) OVER(ORDER BY board_seq DESC) as nextNum
+			  FROM board
+			  <where>
+			  		<if test="writer != null">
+			    	OR	writer LIKE '%' || #{writer} || '%'
+			    	</if>
+			    	<if test="title != null">
+			    	OR 	title LIKE '%' || #{title} || '%'
+			    	</if>
+			    	<if test="content != null">
+			    	OR 	content LIKE '%' || #{content} || '%'
+			    	</if>
+			    	<if test="category != null">
+			    	OR 	category LIKE '%' || #{category} || '%'
+			    	</if>
+			  </where>
+			  ORDER BY boardSeq DESC) result1
+		WHERE boardSeq=#{boardSeq} 
+	</select>
+	
+	<insert id="insert" parameterType="boardDto">
+		INSERT INTO board 
+		(board_seq, writer, title, category, content, viewCount, regdate)	
+		VALUES(board_seq.NEXTVAL, #{writer}, #{title}, #{category}, #{content}, #{viewCount}, SYSDATE)
+	</insert>
+	
+	<update id="update" parameterType="boardDto">
+		UPDATE board
+		SET title=#{title}, category=#{category}, content=#{content}
+		WHERE board_seq=#{board_seq}	
+	</update>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM board WHERE board_seq=#{board_seq}
+	</delete>
+	
+	<select id="getCount" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM board
+	</select>
+	
+	<update id="increaseViewCount" parameterType="int">
+		UPDATE board
+		SET viewCount=viewCount+1
+		WHERE board_seq=#{board_seq}
+	</update>
+</mapper>

@@ -13,7 +13,7 @@
 	<!-- DB 접속 정보를 가지고 있는 문서 읽어들이기 -->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
-			<value>classpath:com/myproject/reservation/mybatis/db.properties</value>
+			<value>classpath:mybatis/db.properties</value>
 		</property>
 	</bean>
 	<!-- DataSource 설정 -->
@@ -23,34 +23,34 @@
 		<property name="username" value="${username}"/>
 		<property name="password" value="${password}"/>
 	</bean>
-	
+
 	<!-- SqlSessionFactory 객체 -->
 	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource"/>
-		<property name="configLocation" value="classpath:com/myproject/reservation/mybatis/Configuration.xml"/>
+		<property name="configLocation" value="classpath:mybatis/Configuration.xml"/>
 	</bean>
-	
+
 	<!-- Dao 에 주입해줄 SqlSession 인터페이스를 구현한 SqlSessionTemplate 객체 -->
 	<bean class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg name="sqlSessionFactory" ref="sessionFactory"/>
-	</bean>	
-	
-	
+	</bean>
+
+
 	<!-- Multipart 폼 전송을 처리하기 위한 bean -->
-	
+
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="maxUploadSize" value="10240000"/>
 	</bean>
-	
+
 	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<property name="order" value="0"/>
 	</bean>
-	
+
 	<mvc:annotation-driven/>
-	
+
 	<!-- 어노테이션 기반으로 Aop 적용하기 위한 설정 -->
 	<aop:aspectj-autoproxy/>
-	
+
 	<context:component-scan base-package="com.myproject.reservation"/>
 	<context:component-scan base-package="com.myproject.reservation.aspect"/>
 	<context:component-scan base-package="com.myproject.reservation.customer.*"/>

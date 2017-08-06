@@ -92,7 +92,7 @@
 	});
 	
 	$("#cancleBtn").click(function(){
-		location.href="../boardlist.do";
+		location.href="${pageContext.request.contextPath}/boardlist.do";
 	})
 		
 // 		$("#submitModifyBoardBtn").click(function() {

@@ -25,7 +25,7 @@
        		<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" id="headerlogo">
        	</a>
     </div>
-	<form action="update.do?board_num=${dto.board_num }" method="post" id="myForm">
+	<form action="update.do?boardSeq=${dto.boardSeq }" method="post" id="myForm">
 		<table style="width:100%">
 			<tr>
 				<td><label for="category">카테고리</label></td>
@@ -91,7 +91,7 @@
 	});
 	
 	$("#cancleBtn").click(function(){
-		location.href="viewcontent.do?board_num=${dto.board_num}";
+		location.href="boardlist.do?boardSeq=${dto.boardSeq}";
 	});
 	
 		

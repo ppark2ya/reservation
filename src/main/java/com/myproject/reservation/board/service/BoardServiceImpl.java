@@ -21,10 +21,10 @@ public class BoardServiceImpl implements BoardService{
 	@Autowired
 	private BoardCommentDao boardCommentDao;
 
-	private static final int PAGE_ROW_COUNT = 10;
-	private static final int PAGE_DISPLAY_COUNT = 5;
 	@Override
 	public ModelAndView boardList(BoardDto dto, String keyword, String condition, String pageNum) {
+		int pageRowCount = 10;
+		int pageDisplayCount = 5;
 		ModelAndView mView = new ModelAndView();
 		if(keyword != null){	// 검색어가 전달된 경우
 			if(condition.equals("titlecontent")){	// 제목+내용 검색
@@ -51,31 +51,31 @@ public class BoardServiceImpl implements BoardService{
 			page = Integer.parseInt(strPageNum);
 		}
 		// 보여줄 페이지 데이터의 시작 ResultSet row 번호
-		int startRowNum = 1 + (page-1)*PAGE_ROW_COUNT;
+		int startRowNum = 1 + (page-1)*pageRowCount;
 		// 보여줄 페이지 데이터의 끝 ResultSet row 번호
-		int endRowNum = page*PAGE_ROW_COUNT;
+		int endRowNum = page*pageRowCount;
 		// 전체 row 의 갯수를 DB 에서 얻어온다.
 		int totalRow = boardDao.getCount();
 		// 전체 페이지의 갯수 구하기
-		int totalPageCount = (int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+		int totalPageCount = (int)Math.ceil(totalRow/(double)pageRowCount);
 		// 시작 페이지 번호
-		int startPageNum = 1+((page-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
+		int startPageNum = 1+((page-1)/pageDisplayCount)*pageDisplayCount;
 		// 끝 페이지 번호
-		int endPageNum = startPageNum+PAGE_DISPLAY_COUNT-1;
+		int endPageNum = startPageNum+pageDisplayCount-1;
 		// 끝 페이지 번호가 잘못된 값이라면
 		if(totalPageCount < endPageNum){
 			endPageNum = totalPageCount;	// 보정해준다.
 		}
-		
+
 		// 시작 row 번호와 끝 row 번호를 dto 에 담는다.
 		dto.setStartRowNum(startRowNum);
 		dto.setEndRowNum(endRowNum);
-		
+
 		// 글 목록을 얻어온다.
 		List<BoardDto> list = boardDao.getList(dto);
 		// 모델을 담는다.
 		mView.addObject("list", list);
-		
+
 		// 현재 페이지 번호
 		mView.addObject("pageNum", page);
 		mView.addObject("startPageNum", startPageNum);
@@ -110,6 +110,15 @@ public class BoardServiceImpl implements BoardService{
 		mView.addObject("commentList", commentList);
 		return mView;
 	}
+
+	@Override
+	public ModelAndView detail(BoardDto dto) {
+		BoardDto resultDto = boardDao.getData(dto);
+		ModelAndView mView = new ModelAndView();
+		mView.addObject("dto", resultDto);
+		return mView;
+	}
+
 	@Override
 	public void increaseViewCount(int boardSeq) {
 		boardDao.increaseViewCount(boardSeq);
@@ -129,5 +138,20 @@ public class BoardServiceImpl implements BoardService{
 		}
 		boardCommentDao.insert(dto);
 	}
+
+	@Override
+	public void delete(int boardSeq) {
+		boardDao.delete(boardSeq);
+	}
+	@Override
+	public void update(BoardDto dto) {
+		boardDao.update(dto);
+	}
+	@Override
+	public void insert(BoardDto dto) {
+		boardDao.insert(dto);
+	}
+
+
 
 }

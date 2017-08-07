@@ -63,7 +63,7 @@
 						<input type="checkbox" id="checkbox" name="isSave" value="yes"/>Remember your ID
 						<input type="text" class="form-control input-block" id="id" name="id" value="${savedId }">
 						<label for="pwd" class="control-label">Password</label>
-						<a href="forgetpasswordform.do?url=${param.url }" style="padding-left: 80px;">Forget password?</a>
+						<a href="forgetpasswordform.do?url=${param.url }&boardSeq=${param.boardSeq}&keyword=${param.keyword}&condition=${param.condition}" style="padding-left: 80px;">Forget password?</a>
 						<input type="password" class="form-control input-block" id="pwd" name="pwd">
 						<button type="submit" class="btn btn-primary btn-block" tabindex="3">Sign in</button>
 					</div>

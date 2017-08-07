@@ -7,9 +7,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.myproject.reservation.board.dto.BoardDto" alias="boardDto"/>
 		<typeAlias type="com.myproject.reservation.board.dto.BoardCommentDto" alias="boardCommentDto"/>
 		<typeAlias type="com.myproject.reservation.customer.dto.CustomerDto" alias="customerDto"/>
-		<typeAlias type="com.myproject.reservation.room.RoomDto" alias="roomDto"/>
+		<typeAlias type="com.myproject.reservation.room.dto.RoomDto" alias="roomDto"/>
 	</typeAliases>
-	
+
 	<!-- sql 문을 정의하고 있는 xml 문서 -->
 	<mappers>
 		<mapper resource="com/myproject/reservation/mybatis/CustomerMapper.xml"/>
@@ -17,7 +17,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/myproject/reservation/mybatis/BoardCommentMapper.xml"/>
 		<mapper resource="com/myproject/reservation/mybatis/RoomMapper.xml"/>
 		<mapper resource="com/myproject/reservation/mybatis/ReservationMapper.xml"/>
-	</mappers>	
+	</mappers>
 </configuration>
 
 

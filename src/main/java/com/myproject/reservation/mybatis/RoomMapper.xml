@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="room">
-	<sql id="columns">
-		room_num, room_name, room_charge, avail_guest, smoking, bath_amenity, wifi_free, breakfast
-	</sql>
-	
-	<select id="getList" parameterType="string" resultType="roomDto">
-		SELECT <include refid="columns"></include>
-		FROM room
-		WHERE to_date(#{checkIn}, 'yyyy.mm.dd')-NVL(to_date(checkOut,'yyyy.mm.dd'), SYSDATE) >= 0
-	</select>
+<!-- SELECT * -->
+<!-- FROM ROOM R -->
+<!-- JOIN ROOM_ORDER RO ON(R.ROOM_SEQ = RO.ROOM_SEQ) -->
+<!-- WHERE RESV_DATE BETWEEN TO_DATE('2017.08.07', 'YYYY.MM.DD') AND TO_DATE('2017.08.10', 'YYYY.MM.DD') -->
+<!-- 8월8일, 8월9일 select -->
 </mapper>

@@ -45,8 +45,6 @@
 			    <![CDATA[
 			    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
 			     ]]>
-			    ORDER BY
-			            room_seq
 			    )
 			)
 		ORDER BY roomSeq ASC

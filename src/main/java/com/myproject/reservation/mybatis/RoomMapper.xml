@@ -1,9 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="room">
-<!-- SELECT * -->
-<!-- FROM ROOM R -->
-<!-- JOIN ROOM_ORDER RO ON(R.ROOM_SEQ = RO.ROOM_SEQ) -->
-<!-- WHERE RESV_DATE BETWEEN TO_DATE('2017.08.07', 'YYYY.MM.DD') AND TO_DATE('2017.08.10', 'YYYY.MM.DD') -->
-<!-- 8월8일, 8월9일 select -->
+	<!-- room_seq 가 낮은 번호일수록 가격이 싼 방이다. -->
+
+	<!-- 현재 예약 가능한 방의 리스트(낮은 가격 순 정렬) -->
+	<!-- @param : checkIn, checkOut -->
+	<!-- result : 예약 가능한 방의 정보를 담은 roomDto type -->
+	<select id="selRoomList" parameterType="roomDto" resultType="roomDto">
+		SELECT
+			room_seq AS roomSeq,
+	        room_name AS roomName,
+	        room_charge AS roomCharge,
+	        room_desc AS roomDesc,
+	        avail_guest AS availGuest,
+	        smoking_yn AS smokingYn,
+	        bathAmenity_yn AS bathAmenityYn,
+	        wififree_yn AS wifiFreeYn,
+	        breakfast_yn AS breakfastYn
+		FROM
+			room
+		WHERE
+			room_seq
+		IN
+			(SELECT room_seq
+			FROM
+			    (SELECT
+			            room_seq,
+			            count(*)
+			    FROM
+			            room
+			    JOIN
+			            room_order USING (room_seq)
+			    WHERE
+			            resv_date
+			    BETWEEN
+			            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+			    AND
+			            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+			    AND
+			            resv_yn = 'y'
+			    GROUP BY
+			            room_seq
+			    HAVING
+			    <![CDATA[
+			    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+			     ]]>
+			    ORDER BY
+			            room_seq
+			    )
+			)
+		ORDER BY roomSeq ASC
+	</select>
 </mapper>

@@ -1,5 +1,9 @@
 package com.myproject.reservation.room.dao;
 
-public interface RoomDao {
+import java.util.List;
 
+import com.myproject.reservation.room.dto.RoomDto;
+
+public interface RoomDao {
+	public List<RoomDto> selRoomList(RoomDto dto);
 }

@@ -1,7 +1,7 @@
 package com.myproject.reservation.room.dto;
 
 /*
- *  room_seq number		-- 객실 번호(fk)
+ *  room_seq number		-- 객실 번호(fk
  *  resv_date date		-- 모든 날짜(1년)
  *  resv_yn				-- 객실 예약 가능 유무
  */

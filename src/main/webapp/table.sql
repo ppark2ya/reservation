@@ -141,8 +141,7 @@ insert into grade values('luxury', 800000, 1300000);
 CREATE TABLE room_image(
 	img_seq		NUMBER	PRIMARY KEY,
 	room_seq	number	references room(room_seq),
-	imgsrc		VARCHAR2(100) NOT NULL,
-	regdate		DATE
+	imgsrc		VARCHAR2(100) NOT NULL
 );
 
-CREATE SEQUENCE image_seq;
+CREATE SEQUENCE img_seq;

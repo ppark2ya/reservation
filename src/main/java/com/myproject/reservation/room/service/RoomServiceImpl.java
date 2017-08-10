@@ -16,10 +16,40 @@ public class RoomServiceImpl implements RoomService{
 	private RoomDao roomDao;
 
 	@Override
-	public ModelAndView selRoomList(RoomDto dto) {
-		List<RoomDto> rooms = roomDao.selRoomList(dto);
+	public ModelAndView selRoomListAsc(RoomDto dto) {
+		List<RoomDto> rooms = roomDao.selRoomListAsc(dto);
 		ModelAndView mView = new ModelAndView("room/roomList");
 		mView.addObject("rooms", rooms);
+		return mView;
+	}
+
+//	@Override
+//	public List<RoomDto> scrollDownListAsc(RoomDto dto){
+//		List<RoomDto> rooms = roomDao.scrollDownListAsc(dto);
+//		return rooms;
+//	}
+
+	@Override
+	public ModelAndView selCheapListAsc(RoomDto dto) {
+		List<RoomDto> rooms = roomDao.selCheapListAsc(dto);
+		ModelAndView mView = new ModelAndView("room/cheapList");
+		mView.addObject("cheap", rooms);
+		return mView;
+	}
+
+	@Override
+	public ModelAndView selPopListAsc(RoomDto dto) {
+		List<RoomDto> rooms = roomDao.selPopListAsc(dto);
+		ModelAndView mView = new ModelAndView("room/popularList");
+		mView.addObject("pop", rooms);
+		return mView;
+	}
+
+	@Override
+	public ModelAndView selLuxeListAsc(RoomDto dto) {
+		List<RoomDto> rooms = roomDao.selLuxeListAsc(dto);
+		ModelAndView mView = new ModelAndView("room/luxuryList");
+		mView.addObject("luxe", rooms);
 		return mView;
 	}
 

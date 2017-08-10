@@ -15,8 +15,32 @@ public class RoomDaoImpl implements RoomDao{
 	private SqlSession session;
 
 	@Override
-	public List<RoomDto> selRoomList(RoomDto dto) {
-		List<RoomDto> rooms = session.selectList("room.selRoomList", dto);
+	public List<RoomDto> selRoomListAsc(RoomDto dto) {
+		List<RoomDto> rooms = session.selectList("room.selRoomListAsc", dto);
+		return rooms;
+	}
+
+//	@Override
+//	public List<RoomDto> scrollDownListAsc(RoomDto dto) {
+//		List<RoomDto> rooms = session.selectList("room.scrollDownListAsc", dto);
+//		return rooms;
+//	}
+
+	@Override
+	public List<RoomDto> selCheapListAsc(RoomDto dto) {
+		List<RoomDto> rooms = session.selectList("room.selCheapListAsc", dto);
+		return rooms;
+	}
+
+	@Override
+	public List<RoomDto> selPopListAsc(RoomDto dto) {
+		List<RoomDto> rooms = session.selectList("room.selPopListAsc", dto);
+		return rooms;
+	}
+
+	@Override
+	public List<RoomDto> selLuxeListAsc(RoomDto dto) {
+		List<RoomDto> rooms = session.selectList("room.selLuxeListAsc", dto);
 		return rooms;
 	}
 

@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="room">
-	<!-- room_seq 가 낮은 번호일수록 가격이 싼 방이다. -->
-
 	<!-- 현재 예약 가능한 방의 리스트(낮은 가격 순 정렬) -->
 	<!-- @param : checkIn, checkOut -->
 	<!-- result : 예약 가능한 방의 정보를 담은 roomDto type -->
-	<select id="selRoomList" parameterType="roomDto" resultType="roomDto">
-		SELECT
-			room_seq AS roomSeq,
-	        room_name AS roomName,
-	        room_charge AS roomCharge,
-	        room_desc AS roomDesc,
-	        avail_guest AS availGuest,
-	        smoking_yn AS smokingYn,
-	        bathAmenity_yn AS bathAmenityYn,
-	        wififree_yn AS wifiFreeYn,
-	        breakfast_yn AS breakfastYn
+	<select id="selRoomListAsc" parameterType="roomDto" resultType="roomDto">
+	<![CDATA[
+	SELECT
+		room_seq AS roomSeq,
+	    room_name AS roomName,
+	    room_charge AS roomCharge,
+	    room_desc AS roomDesc,
+	    avail_guest AS availGuest,
+	    smoking_yn AS smokingYn,
+	    bathAmenity_yn AS bathAmenityYn,
+	    wififree_yn AS wifiFreeYn,
+	    breakfast_yn AS breakfastYn
+	FROM
+		(SELECT
+			selRooms.*,
+			ROWNUM
 		FROM
-			room
-		WHERE
-			room_seq
-		IN
-			(SELECT room_seq
+			(SELECT
+				*
 			FROM
+				room
+			WHERE
+				room_seq
+			IN
 			    (SELECT
-			            room_seq,
-			            count(*)
+			            room_seq
 			    FROM
 			            room
 			    JOIN
@@ -42,11 +45,331 @@
 			    GROUP BY
 			            room_seq
 			    HAVING
-			    <![CDATA[
-			    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
-			     ]]>
+			    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
 			    )
-			)
-		ORDER BY roomSeq ASC
+			ORDER BY room_charge ASC, room_seq ASC) selRooms)
+	WHERE
+		ROWNUM BETWEEN 1 AND 15
+	]]>
+	</select>
+
+	<!-- 예약 가능한 방 가격 높은 순 정렬 -->
+	<select id="selRoomListDesc" parameterType="roomDto" resultType="roomDto">
+	<![CDATA[
+	SELECT
+		room_seq AS roomSeq,
+	    room_name AS roomName,
+	    room_charge AS roomCharge,
+	    room_desc AS roomDesc,
+	    avail_guest AS availGuest,
+	    smoking_yn AS smokingYn,
+	    bathAmenity_yn AS bathAmenityYn,
+	    wififree_yn AS wifiFreeYn,
+	    breakfast_yn AS breakfastYn
+	FROM
+		(SELECT
+			selRooms.*,
+			ROWNUM
+		FROM
+			(SELECT
+				*
+			FROM
+				room
+			WHERE
+				room_seq
+			IN
+			    (SELECT
+			            room_seq
+			    FROM
+			            room
+			    JOIN
+			            room_order USING (room_seq)
+			    WHERE
+			            resv_date
+			    BETWEEN
+			            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+			    AND
+			            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+			    AND
+			            resv_yn = 'y'
+			    GROUP BY
+			            room_seq
+			    HAVING
+			    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+			    )
+			ORDER BY room_charge DESC, room_seq DESC) selRooms)
+	WHERE
+		ROWNUM BETWEEN 1 AND 15
+	]]>
+	</select>
+
+	<!-- cheap grade 에서 예약가능한 방 출력 ASC-->
+	<select id="selCheapListAsc" parameterType="roomDto" resultType="roomDto">
+	<![CDATA[
+	SELECT
+		room_seq AS roomSeq,
+        room_name AS roomName,
+        room_charge AS roomCharge,
+        room_desc AS roomDesc,
+        avail_guest AS availGuest,
+        smoking_yn AS smokingYn,
+        bathAmenity_yn AS bathAmenityYn,
+        wififree_yn AS wifiFreeYn,
+        breakfast_yn AS breakfastYn
+	FROM
+		room
+	WHERE
+		room_seq
+	IN
+	    (SELECT
+	            room_seq
+	    FROM
+	            room
+	    JOIN
+	            room_order USING (room_seq)
+	    JOIN
+                grade ON (room_charge BETWEEN lowest AND highest)
+	    WHERE
+	            resv_date
+	    BETWEEN
+	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+	    AND
+	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+	    AND
+	            resv_yn = 'y'
+	    AND
+	            room_grade = 'cheap'
+	    GROUP BY
+	            room_seq
+	    HAVING
+	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+	    )
+	ORDER BY roomCharge ASC, roomSeq ASC
+	]]>
+	</select>
+
+	<!-- cheap grade 에서 예약가능한 방 출력 DESC-->
+	<select id="selCheapListDesc" parameterType="roomDto" resultType="roomDto">
+	<![CDATA[
+	SELECT
+		room_seq AS roomSeq,
+        room_name AS roomName,
+        room_charge AS roomCharge,
+        room_desc AS roomDesc,
+        avail_guest AS availGuest,
+        smoking_yn AS smokingYn,
+        bathAmenity_yn AS bathAmenityYn,
+        wififree_yn AS wifiFreeYn,
+        breakfast_yn AS breakfastYn
+	FROM
+		room
+	WHERE
+		room_seq
+	IN
+	    (SELECT
+	            room_seq
+	    FROM
+	            room
+	    JOIN
+	            room_order USING (room_seq)
+	    JOIN
+                grade ON (room_charge BETWEEN lowest AND highest)
+	    WHERE
+	            resv_date
+	    BETWEEN
+	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+	    AND
+	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+	    AND
+	            resv_yn = 'y'
+	    AND
+	            room_grade = 'cheap'
+	    GROUP BY
+	            room_seq
+	    HAVING
+	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+	    )
+	ORDER BY roomCharge DESC, roomSeq DESC
+	]]>
+	</select>
+
+	<!-- popular grade 에서 예약가능한 방 출력 -->
+	<select id="selPopListAsc" parameterType="roomDto" resultType="roomDto">
+	<![CDATA[
+	SELECT
+		room_seq AS roomSeq,
+        room_name AS roomName,
+        room_charge AS roomCharge,
+        room_desc AS roomDesc,
+        avail_guest AS availGuest,
+        smoking_yn AS smokingYn,
+        bathAmenity_yn AS bathAmenityYn,
+        wififree_yn AS wifiFreeYn,
+        breakfast_yn AS breakfastYn
+	FROM
+		room
+	WHERE
+		room_seq
+	IN
+	    (SELECT
+	            room_seq
+	    FROM
+	            room
+	    JOIN
+	            room_order USING (room_seq)
+	    JOIN
+                grade ON (room_charge BETWEEN lowest AND highest)
+	    WHERE
+	            resv_date
+	    BETWEEN
+	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+	    AND
+	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+	    AND
+	            resv_yn = 'y'
+	    AND
+	            room_grade = 'popular'
+	    GROUP BY
+	            room_seq
+	    HAVING
+	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+	    )
+	ORDER BY roomCharge ASC, roomSeq ASC
+	]]>
+	</select>
+
+	<!-- popular grade 에서 예약가능한 방 출력 -->
+	<select id="selPopListDesc" parameterType="roomDto" resultType="roomDto">
+	<![CDATA[
+	SELECT
+		room_seq AS roomSeq,
+        room_name AS roomName,
+        room_charge AS roomCharge,
+        room_desc AS roomDesc,
+        avail_guest AS availGuest,
+        smoking_yn AS smokingYn,
+        bathAmenity_yn AS bathAmenityYn,
+        wififree_yn AS wifiFreeYn,
+        breakfast_yn AS breakfastYn
+	FROM
+		room
+	WHERE
+		room_seq
+	IN
+	    (SELECT
+	            room_seq
+	    FROM
+	            room
+	    JOIN
+	            room_order USING (room_seq)
+	    JOIN
+                grade ON (room_charge BETWEEN lowest AND highest)
+	    WHERE
+	            resv_date
+	    BETWEEN
+	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+	    AND
+	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+	    AND
+	            resv_yn = 'y'
+	    AND
+	            room_grade = 'popular'
+	    GROUP BY
+	            room_seq
+	    HAVING
+	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+	    )
+	ORDER BY roomCharge DESC, roomSeq DESC
+	]]>
+	</select>
+
+	<!-- luxury grade 에서 예약가능한 방 출력 ASC-->
+	<select id="selLuxeListAsc" parameterType="roomDto" resultType="roomDto">
+	<![CDATA[
+	SELECT
+		room_seq AS roomSeq,
+        room_name AS roomName,
+        room_charge AS roomCharge,
+        room_desc AS roomDesc,
+        avail_guest AS availGuest,
+        smoking_yn AS smokingYn,
+        bathAmenity_yn AS bathAmenityYn,
+        wififree_yn AS wifiFreeYn,
+        breakfast_yn AS breakfastYn
+	FROM
+		room
+	WHERE
+		room_seq
+	IN
+	    (SELECT
+	            room_seq
+	    FROM
+	            room
+	    JOIN
+	            room_order USING (room_seq)
+	    JOIN
+                   grade ON (room_charge BETWEEN lowest AND highest)
+	    WHERE
+	            resv_date
+	    BETWEEN
+	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+	    AND
+	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+	    AND
+	            resv_yn = 'y'
+	    AND
+	            room_grade = 'luxury'
+	    GROUP BY
+	            room_seq
+	    HAVING
+	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+	    )
+	ORDER BY roomCharge ASC, roomSeq ASC
+	]]>
+	</select>
+
+	<!-- luxury grade 에서 예약가능한 방 출력 DESC -->
+	<select id="selLuxeListDesc" parameterType="roomDto" resultType="roomDto">
+	<![CDATA[
+	SELECT
+		room_seq AS roomSeq,
+        room_name AS roomName,
+        room_charge AS roomCharge,
+        room_desc AS roomDesc,
+        avail_guest AS availGuest,
+        smoking_yn AS smokingYn,
+        bathAmenity_yn AS bathAmenityYn,
+        wififree_yn AS wifiFreeYn,
+        breakfast_yn AS breakfastYn
+	FROM
+		room
+	WHERE
+		room_seq
+	IN
+	    (SELECT
+	            room_seq
+	    FROM
+	            room
+	    JOIN
+	            room_order USING (room_seq)
+	    JOIN
+                grade ON (room_charge BETWEEN lowest AND highest)
+	    WHERE
+	            resv_date
+	    BETWEEN
+	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+	    AND
+	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+	    AND
+	            resv_yn = 'y'
+	    AND
+	            room_grade = 'luxury'
+	    GROUP BY
+	            room_seq
+	    HAVING
+	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+	    )
+	ORDER BY roomCharge DESC, roomSeq DESC
+	]]>
 	</select>
 </mapper>

@@ -25,10 +25,13 @@ function leadingZeros(n, digits) {
 var branch = function(checkIn, checkOut){
 	if(checkIn == "" && checkOut == ""){
 		alert("날짜를 선택해주세요");
+		return;
 	}else if(checkIn == ""){
 		alert("체크인 날짜를 선택해주세요");
+		return;
 	}else if(checkOut == ""){
 		alert("체크아웃 날짜를 선택해주세요");
+		return;
 	}else if(checkIn != "" && checkOut != ""){
 		if(checkIn < getCurrentDate() || checkOut < getCurrentDate()){
 			console.log(getCurrentDate())

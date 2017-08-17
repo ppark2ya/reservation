@@ -20,12 +20,6 @@ public class RoomDaoImpl implements RoomDao{
 		return rooms;
 	}
 
-//	@Override
-//	public List<RoomDto> scrollDownListAsc(RoomDto dto) {
-//		List<RoomDto> rooms = session.selectList("room.scrollDownListAsc", dto);
-//		return rooms;
-//	}
-
 	@Override
 	public List<RoomDto> selCheapListAsc(RoomDto dto) {
 		List<RoomDto> rooms = session.selectList("room.selCheapListAsc", dto);
@@ -42,6 +36,11 @@ public class RoomDaoImpl implements RoomDao{
 	public List<RoomDto> selLuxeListAsc(RoomDto dto) {
 		List<RoomDto> rooms = session.selectList("room.selLuxeListAsc", dto);
 		return rooms;
+	}
+
+	@Override
+	public int getCount() {
+		return session.selectOne("room.getCount");
 	}
 
 }

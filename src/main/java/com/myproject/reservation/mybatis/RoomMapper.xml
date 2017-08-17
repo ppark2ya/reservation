@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="room">
+	<select id="getCount" resultType="int">
+		SELECT
+			NVL(MAX(ROWNUM), 0)
+		FROM
+			room
+	</select>
 	<!-- 현재 예약 가능한 방의 리스트(낮은 가격 순 정렬) -->
 	<!-- @param : checkIn, checkOut -->
 	<!-- result : 예약 가능한 방의 정보를 담은 roomDto type -->
@@ -15,11 +21,11 @@
 	    smoking_yn AS smokingYn,
 	    bathAmenity_yn AS bathAmenityYn,
 	    wififree_yn AS wifiFreeYn,
-	    breakfast_yn AS breakfastYn
+	    breakfast_yn AS breakfastYn,
+	    img_src AS imgSrc
 	FROM
-		(SELECT
-			selRooms.*,
-			ROWNUM
+		(SELECT selRooms.*,
+				ROWNUM AS rnum
 		FROM
 			(SELECT
 				*
@@ -49,7 +55,7 @@
 			    )
 			ORDER BY room_charge ASC, room_seq ASC) selRooms)
 	WHERE
-		ROWNUM BETWEEN 1 AND 15
+ 		rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	]]>
 	</select>
 
@@ -65,11 +71,11 @@
 	    smoking_yn AS smokingYn,
 	    bathAmenity_yn AS bathAmenityYn,
 	    wififree_yn AS wifiFreeYn,
-	    breakfast_yn AS breakfastYn
+	    breakfast_yn AS breakfastYn,
+	    img_src AS imgSrc
 	FROM
-		(SELECT
-			selRooms.*,
-			ROWNUM
+		(SELECT selRooms.*,
+				ROWNUM AS rnum
 		FROM
 			(SELECT
 				*
@@ -98,8 +104,8 @@
 			    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
 			    )
 			ORDER BY room_charge DESC, room_seq DESC) selRooms)
-	WHERE
-		ROWNUM BETWEEN 1 AND 15
+ 	WHERE
+		rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	]]>
 	</select>
 
@@ -108,43 +114,52 @@
 	<![CDATA[
 	SELECT
 		room_seq AS roomSeq,
-        room_name AS roomName,
-        room_charge AS roomCharge,
-        room_desc AS roomDesc,
-        avail_guest AS availGuest,
-        smoking_yn AS smokingYn,
-        bathAmenity_yn AS bathAmenityYn,
-        wififree_yn AS wifiFreeYn,
-        breakfast_yn AS breakfastYn
+	    room_name AS roomName,
+	    room_charge AS roomCharge,
+	    room_desc AS roomDesc,
+	    avail_guest AS availGuest,
+	    smoking_yn AS smokingYn,
+	    bathAmenity_yn AS bathAmenityYn,
+	    wififree_yn AS wifiFreeYn,
+	    breakfast_yn AS breakfastYn,
+	    img_src AS imgSrc
 	FROM
-		room
+		(SELECT selRooms.*,
+				ROWNUM AS rnum
+		FROM
+			(SELECT
+				*
+			FROM
+				room
+			WHERE
+				room_seq
+			IN
+			    (SELECT
+			            room_seq
+			    FROM
+			            room
+			    JOIN
+			            room_order USING (room_seq)
+			    JOIN
+			            grade ON (room_charge BETWEEN lowest AND highest)
+			    WHERE
+			            resv_date
+			    BETWEEN
+			            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+			    AND
+			            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+			    AND
+			            resv_yn = 'y'
+			    AND
+			            room_grade = 'cheap'
+			    GROUP BY
+			            room_seq
+			    HAVING
+			    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+			    )
+			ORDER BY room_charge ASC, room_seq ASC) selRooms)
 	WHERE
-		room_seq
-	IN
-	    (SELECT
-	            room_seq
-	    FROM
-	            room
-	    JOIN
-	            room_order USING (room_seq)
-	    JOIN
-                grade ON (room_charge BETWEEN lowest AND highest)
-	    WHERE
-	            resv_date
-	    BETWEEN
-	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
-	    AND
-	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
-	    AND
-	            resv_yn = 'y'
-	    AND
-	            room_grade = 'cheap'
-	    GROUP BY
-	            room_seq
-	    HAVING
-	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
-	    )
-	ORDER BY roomCharge ASC, roomSeq ASC
+ 		rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	]]>
 	</select>
 
@@ -153,43 +168,52 @@
 	<![CDATA[
 	SELECT
 		room_seq AS roomSeq,
-        room_name AS roomName,
-        room_charge AS roomCharge,
-        room_desc AS roomDesc,
-        avail_guest AS availGuest,
-        smoking_yn AS smokingYn,
-        bathAmenity_yn AS bathAmenityYn,
-        wififree_yn AS wifiFreeYn,
-        breakfast_yn AS breakfastYn
+	    room_name AS roomName,
+	    room_charge AS roomCharge,
+	    room_desc AS roomDesc,
+	    avail_guest AS availGuest,
+	    smoking_yn AS smokingYn,
+	    bathAmenity_yn AS bathAmenityYn,
+	    wififree_yn AS wifiFreeYn,
+	    breakfast_yn AS breakfastYn,
+	    img_src AS imgSrc
 	FROM
-		room
+		(SELECT selRooms.*,
+				ROWNUM AS rnum
+		FROM
+			(SELECT
+				*
+			FROM
+				room
+			WHERE
+				room_seq
+			IN
+			    (SELECT
+			            room_seq
+			    FROM
+			            room
+			    JOIN
+			            room_order USING (room_seq)
+			    JOIN
+			            grade ON (room_charge BETWEEN lowest AND highest)
+			    WHERE
+			            resv_date
+			    BETWEEN
+			            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+			    AND
+			            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+			    AND
+			            resv_yn = 'y'
+			    AND
+			            room_grade = 'cheap'
+			    GROUP BY
+			            room_seq
+			    HAVING
+			    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+			    )
+			ORDER BY room_charge DESC, room_seq DESC) selRooms)
 	WHERE
-		room_seq
-	IN
-	    (SELECT
-	            room_seq
-	    FROM
-	            room
-	    JOIN
-	            room_order USING (room_seq)
-	    JOIN
-                grade ON (room_charge BETWEEN lowest AND highest)
-	    WHERE
-	            resv_date
-	    BETWEEN
-	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
-	    AND
-	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
-	    AND
-	            resv_yn = 'y'
-	    AND
-	            room_grade = 'cheap'
-	    GROUP BY
-	            room_seq
-	    HAVING
-	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
-	    )
-	ORDER BY roomCharge DESC, roomSeq DESC
+ 		rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	]]>
 	</select>
 
@@ -198,43 +222,52 @@
 	<![CDATA[
 	SELECT
 		room_seq AS roomSeq,
-        room_name AS roomName,
-        room_charge AS roomCharge,
-        room_desc AS roomDesc,
-        avail_guest AS availGuest,
-        smoking_yn AS smokingYn,
-        bathAmenity_yn AS bathAmenityYn,
-        wififree_yn AS wifiFreeYn,
-        breakfast_yn AS breakfastYn
+	    room_name AS roomName,
+	    room_charge AS roomCharge,
+	    room_desc AS roomDesc,
+	    avail_guest AS availGuest,
+	    smoking_yn AS smokingYn,
+	    bathAmenity_yn AS bathAmenityYn,
+	    wififree_yn AS wifiFreeYn,
+	    breakfast_yn AS breakfastYn,
+	    img_src AS imgSrc
 	FROM
-		room
+		(SELECT selRooms.*,
+				ROWNUM AS rnum
+		FROM
+			(SELECT
+				*
+			FROM
+				room
+			WHERE
+				room_seq
+			IN
+			    (SELECT
+			            room_seq
+			    FROM
+			            room
+			    JOIN
+			            room_order USING (room_seq)
+			    JOIN
+			            grade ON (room_charge BETWEEN lowest AND highest)
+			    WHERE
+			            resv_date
+			    BETWEEN
+			            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+			    AND
+			            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+			    AND
+			            resv_yn = 'y'
+			    AND
+			            room_grade = 'popular'
+			    GROUP BY
+			            room_seq
+			    HAVING
+			    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+			    )
+			ORDER BY room_charge ASC, room_seq ASC) selRooms)
 	WHERE
-		room_seq
-	IN
-	    (SELECT
-	            room_seq
-	    FROM
-	            room
-	    JOIN
-	            room_order USING (room_seq)
-	    JOIN
-                grade ON (room_charge BETWEEN lowest AND highest)
-	    WHERE
-	            resv_date
-	    BETWEEN
-	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
-	    AND
-	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
-	    AND
-	            resv_yn = 'y'
-	    AND
-	            room_grade = 'popular'
-	    GROUP BY
-	            room_seq
-	    HAVING
-	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
-	    )
-	ORDER BY roomCharge ASC, roomSeq ASC
+ 		rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	]]>
 	</select>
 
@@ -243,43 +276,52 @@
 	<![CDATA[
 	SELECT
 		room_seq AS roomSeq,
-        room_name AS roomName,
-        room_charge AS roomCharge,
-        room_desc AS roomDesc,
-        avail_guest AS availGuest,
-        smoking_yn AS smokingYn,
-        bathAmenity_yn AS bathAmenityYn,
-        wififree_yn AS wifiFreeYn,
-        breakfast_yn AS breakfastYn
+	    room_name AS roomName,
+	    room_charge AS roomCharge,
+	    room_desc AS roomDesc,
+	    avail_guest AS availGuest,
+	    smoking_yn AS smokingYn,
+	    bathAmenity_yn AS bathAmenityYn,
+	    wififree_yn AS wifiFreeYn,
+	    breakfast_yn AS breakfastYn,
+	    img_src AS imgSrc
 	FROM
-		room
+		(SELECT selRooms.*,
+				ROWNUM AS rnum
+		FROM
+			(SELECT
+				*
+			FROM
+				room
+			WHERE
+				room_seq
+			IN
+			    (SELECT
+			            room_seq
+			    FROM
+			            room
+			    JOIN
+			            room_order USING (room_seq)
+			    JOIN
+			            grade ON (room_charge BETWEEN lowest AND highest)
+			    WHERE
+			            resv_date
+			    BETWEEN
+			            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+			    AND
+			            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+			    AND
+			            resv_yn = 'y'
+			    AND
+			            room_grade = 'popular'
+			    GROUP BY
+			            room_seq
+			    HAVING
+			    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+			    )
+			ORDER BY room_charge DESC, room_seq DESC) selRooms)
 	WHERE
-		room_seq
-	IN
-	    (SELECT
-	            room_seq
-	    FROM
-	            room
-	    JOIN
-	            room_order USING (room_seq)
-	    JOIN
-                grade ON (room_charge BETWEEN lowest AND highest)
-	    WHERE
-	            resv_date
-	    BETWEEN
-	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
-	    AND
-	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
-	    AND
-	            resv_yn = 'y'
-	    AND
-	            room_grade = 'popular'
-	    GROUP BY
-	            room_seq
-	    HAVING
-	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
-	    )
-	ORDER BY roomCharge DESC, roomSeq DESC
+ 		rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	]]>
 	</select>
 
@@ -288,43 +330,47 @@
 	<![CDATA[
 	SELECT
 		room_seq AS roomSeq,
-        room_name AS roomName,
-        room_charge AS roomCharge,
-        room_desc AS roomDesc,
-        avail_guest AS availGuest,
-        smoking_yn AS smokingYn,
-        bathAmenity_yn AS bathAmenityYn,
-        wififree_yn AS wifiFreeYn,
-        breakfast_yn AS breakfastYn
+	    room_name AS roomName,
+	    room_charge AS roomCharge,
+	    room_desc AS roomDesc,
+	    avail_guest AS availGuest,
+	    smoking_yn AS smokingYn,
+	    bathAmenity_yn AS bathAmenityYn,
+	    wififree_yn AS wifiFreeYn,
+	    breakfast_yn AS breakfastYn,
+	    img_src AS imgSrc
 	FROM
-		room
-	WHERE
-		room_seq
-	IN
-	    (SELECT
-	            room_seq
-	    FROM
-	            room
-	    JOIN
-	            room_order USING (room_seq)
-	    JOIN
-                   grade ON (room_charge BETWEEN lowest AND highest)
-	    WHERE
-	            resv_date
-	    BETWEEN
-	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
-	    AND
-	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
-	    AND
-	            resv_yn = 'y'
-	    AND
-	            room_grade = 'luxury'
-	    GROUP BY
-	            room_seq
-	    HAVING
-	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
-	    )
-	ORDER BY roomCharge ASC, roomSeq ASC
+		(SELECT
+			*
+		FROM
+			room
+		WHERE
+			room_seq
+		IN
+		    (SELECT
+		            room_seq
+		    FROM
+		            room
+		    JOIN
+		            room_order USING (room_seq)
+		    JOIN
+		            grade ON (room_charge BETWEEN lowest AND highest)
+		    WHERE
+		            resv_date
+		    BETWEEN
+		            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+		    AND
+		            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+		    AND
+		            resv_yn = 'y'
+		    AND
+		            room_grade = 'luxury'
+		    GROUP BY
+		            room_seq
+		    HAVING
+		    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+		    )
+		ORDER BY room_charge ASC, room_seq ASC)
 	]]>
 	</select>
 
@@ -333,43 +379,47 @@
 	<![CDATA[
 	SELECT
 		room_seq AS roomSeq,
-        room_name AS roomName,
-        room_charge AS roomCharge,
-        room_desc AS roomDesc,
-        avail_guest AS availGuest,
-        smoking_yn AS smokingYn,
-        bathAmenity_yn AS bathAmenityYn,
-        wififree_yn AS wifiFreeYn,
-        breakfast_yn AS breakfastYn
+	    room_name AS roomName,
+	    room_charge AS roomCharge,
+	    room_desc AS roomDesc,
+	    avail_guest AS availGuest,
+	    smoking_yn AS smokingYn,
+	    bathAmenity_yn AS bathAmenityYn,
+	    wififree_yn AS wifiFreeYn,
+	    breakfast_yn AS breakfastYn,
+	    img_src AS imgSrc
 	FROM
-		room
-	WHERE
-		room_seq
-	IN
-	    (SELECT
-	            room_seq
-	    FROM
-	            room
-	    JOIN
-	            room_order USING (room_seq)
-	    JOIN
-                grade ON (room_charge BETWEEN lowest AND highest)
-	    WHERE
-	            resv_date
-	    BETWEEN
-	            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
-	    AND
-	            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
-	    AND
-	            resv_yn = 'y'
-	    AND
-	            room_grade = 'luxury'
-	    GROUP BY
-	            room_seq
-	    HAVING
-	    	 count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
-	    )
-	ORDER BY roomCharge DESC, roomSeq DESC
+		(SELECT
+			*
+		FROM
+			room
+		WHERE
+			room_seq
+		IN
+		    (SELECT
+		            room_seq
+		    FROM
+		            room
+		    JOIN
+		            room_order USING (room_seq)
+		    JOIN
+		            grade ON (room_charge BETWEEN lowest AND highest)
+		    WHERE
+		            resv_date
+		    BETWEEN
+		            TO_DATE(#{checkIn}, 'yyyy.mm.dd')
+		    AND
+		            TO_DATE(#{checkOut}, 'yyyy.mm.dd')
+		    AND
+		            resv_yn = 'y'
+		    AND
+		            room_grade = 'luxury'
+		    GROUP BY
+		            room_seq
+		    HAVING
+		    		count(*) >= (TO_DATE(#{checkOut}, 'yyyy.mm.dd') - TO_DATE(#{checkIn}, 'yyyy.mm.dd'))
+		    )
+		ORDER BY room_charge DESC, room_seq DESC)
 	]]>
 	</select>
 </mapper>

@@ -37,57 +37,58 @@ create table room(
     smoking_yn     char(2) not null,		-- 흡연가능여부(y/n)
     bathamenity_yn char(2) not null,		-- 세면용품 구비여부(y/n)
     wififree_yn   char(2) not null,		-- 무료 와이파이여부(y/n)
-    breakfast_yn	char(2)					-- 조식 포함 여부(y/n)
+    breakfast_yn	char(2),					-- 조식 포함 여부(y/n)
+    img_src	varchar2(200)
 );
 -- 방 목록들
-insert into room values(room_seq.NEXTVAL,'c101',82000,'',2,'n','n','n','n');
-insert into room values(room_seq.NEXTVAL,'c102',82000,'',2,'n','n','n','n');
-insert into room values(room_seq.NEXTVAL,'c103',82000,'',2,'n','n','n','n');
-insert into room values(room_seq.NEXTVAL,'c104',82000,'',2,'n','n','n','n');
-insert into room values(room_seq.NEXTVAL,'c105',82000,'',2,'n','n','n','n');
-insert into room values(room_seq.NEXTVAL,'c106',89000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'c107',89000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'c108',89000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'c109',89000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'c110',89000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'c201',95000,'',2,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'c202',95000,'',2,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'c203',95000,'',2,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'c204',95000,'',2,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'c205',95000,'',2,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p206',210000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p207',210000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p208',210000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p209',210000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p210',210000,'',2,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p301',280000,'',3,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p302',280000,'',3,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p303',280000,'',3,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p304',280000,'',3,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p305',300000,'',3,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p306',300000,'',3,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p307',300000,'',3,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p308',300000,'',3,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p309',300000,'',3,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p401',350000,'',4,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p402',350000,'',4,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p403',350000,'',4,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p404',350000,'',4,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p405',350000,'',4,'n','y','y','n');
-insert into room values(room_seq.NEXTVAL,'p406',400000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p407',400000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p408',400000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p501',450000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p502',450000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p503',450000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p504',450000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p505',450000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p506',450000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p507',450000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'p508',450000,'',4,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'s1',897000,'',6,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'s2',980000,'',6,'n','y','y','y');
-insert into room values(room_seq.NEXTVAL,'s3',1290000,'',6,'n','y','y','y');
+insert into room values(room_seq.NEXTVAL,'c101',82000,'',2,'n','n','n','n','/resources/images/cheap_room.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c102',82000,'',2,'n','n','n','n','/resources/images/cheap_room.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c103',82000,'',2,'n','n','n','n','/resources/images/cheap_room.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c104',82000,'',2,'n','n','n','n','/resources/images/cheap_room.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c105',82000,'',2,'n','n','n','n','/resources/images/cheap_room.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c106',89000,'',2,'n','y','y','n','/resources/images/cheap_room2.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c107',89000,'',2,'n','y','y','n','/resources/images/cheap_room2.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c108',89000,'',2,'n','y','y','n','/resources/images/cheap_room2.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c109',89000,'',2,'n','y','y','n','/resources/images/cheap_room2.jpg+/resources/images/cheap_bath2.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c110',89000,'',2,'n','y','y','n','/resources/images/cheap_room2.jpg+/resources/images/cheap_bath2.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c201',95000,'',2,'n','y','y','y','/resources/images/cheap_room3.jpg+/resources/images/cheap_bath2.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c202',95000,'',2,'n','y','y','y','/resources/images/cheap_room3.jpg+/resources/images/cheap_bath2.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c203',95000,'',2,'n','y','y','y','/resources/images/cheap_room3.jpg+/resources/images/cheap_bath2.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c204',95000,'',2,'n','y','y','y','/resources/images/cheap_room3.jpg+/resources/images/cheap_bath2.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'c205',95000,'',2,'n','y','y','y','/resources/images/cheap_room3.jpg+/resources/images/cheap_bath2.jpg+/resources/images/cheap_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p206',210000,'',2,'n','y','y','n','/resources/images/pop_room.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p207',210000,'',2,'n','y','y','n','/resources/images/pop_room.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p208',210000,'',2,'n','y','y','n','/resources/images/pop_room.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p209',210000,'',2,'n','y','y','n','/resources/images/pop_room.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p210',210000,'',2,'n','y','y','n','/resources/images/pop_room.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p301',280000,'',3,'n','y','y','n','/resources/images/pop_room2.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p302',280000,'',3,'n','y','y','n','/resources/images/pop_room2.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p303',280000,'',3,'n','y','y','n','/resources/images/pop_room2.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p304',280000,'',3,'n','y','y','n','/resources/images/pop_room2.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p305',300000,'',3,'n','y','y','y','/resources/images/pop_room3.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p306',300000,'',3,'n','y','y','y','/resources/images/pop_room3.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p307',300000,'',3,'n','y','y','y','/resources/images/pop_room3.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p308',300000,'',3,'n','y','y','y','/resources/images/pop_room3.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p309',300000,'',3,'n','y','y','y','/resources/images/pop_room3.jpg+/resources/images/pop_bath.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p401',350000,'',4,'n','y','y','n','/resources/images/pop_room4.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p402',350000,'',4,'n','y','y','n','/resources/images/pop_room4.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p403',350000,'',4,'n','y','y','n','/resources/images/pop_room4.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p404',350000,'',4,'n','y','y','n','/resources/images/pop_room4.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p405',350000,'',4,'n','y','y','n','/resources/images/pop_room4.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p406',400000,'',4,'n','y','y','y','/resources/images/pop_room5.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p407',400000,'',4,'n','y','y','y','/resources/images/pop_room5.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p408',400000,'',4,'n','y','y','y','/resources/images/pop_room5.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p501',450000,'',4,'n','y','y','y','/resources/images/pop_room6.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p502',450000,'',4,'n','y','y','y','/resources/images/pop_room6.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p503',450000,'',4,'n','y','y','y','/resources/images/pop_room6.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p504',450000,'',4,'n','y','y','y','/resources/images/pop_room6.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p505',450000,'',4,'n','y','y','y','/resources/images/pop_room6.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p506',450000,'',4,'n','y','y','y','/resources/images/pop_room6.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p507',450000,'',4,'n','y','y','y','/resources/images/pop_room6.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'p508',450000,'',4,'n','y','y','y','/resources/images/pop_room6.jpg+/resources/images/pop_bath2.jpg+/resources/images/pop_living.jpg');
+insert into room values(room_seq.NEXTVAL,'s1',897000,'',6,'n','y','y','y','/resources/images/sweet_room.jpg+/resources/images/sweet_bath.jpg+/resources/images/sweet_living.jpg');
+insert into room values(room_seq.NEXTVAL,'s2',980000,'',6,'n','y','y','y','/resources/images/sweet_room2.jpg+/resources/images/sweet_bath2.jpg+/resources/images/sweet_living.jpg');
+insert into room values(room_seq.NEXTVAL,'s3',1290000,'',6,'n','y','y','y','/resources/images/sweet_room3.jpg+/resources/images/sweet_bath3.jpg+/resources/images/sweet_living.jpg');
 
 -- 객실 예약 가능 여부를 저장하는 테이블
 create table room_order(
@@ -124,8 +125,8 @@ ADD CONSTRAINT fk_cust_id FOREIGN KEY(id)
 REFERENCES customer(id);
 
 ALTER TABLE reservation
-ADD CONSTRAINT fk_room_num FOREIGN KEY(roomSeq)
-REFERENCES room(roomSeq);
+ADD CONSTRAINT fk_room_num FOREIGN KEY(room_seq)
+REFERENCES room(room_seq);
 
 create table grade(
     room_grade  varchar2(20),			-- 객실 등급(cheap, popular, luxury)
@@ -137,11 +138,3 @@ insert into grade values('cheap', 80000, 100000);
 insert into grade values('popular', 200000, 450000);
 insert into grade values('luxury', 800000, 1300000);
 
--- imgsrc 에 저장되어있는 경로를 통해 <img src=""> 에 출력
-CREATE TABLE room_image(
-	img_seq		NUMBER	PRIMARY KEY,
-	room_seq	number	references room(room_seq),
-	imgsrc		VARCHAR2(100) NOT NULL
-);
-
-CREATE SEQUENCE img_seq;

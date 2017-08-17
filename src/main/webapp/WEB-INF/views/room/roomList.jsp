@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,10 +54,58 @@
 					<td>${tmp.bathAmenityYn }</td>
 					<td>${tmp.wifiFreeYn }</td>
 					<td>${tmp.breakfastYn }</td>
+					<td>
+						<c:set var="image" value="${tmp.imgSrc }"/>
+						<c:set var="imageRpic" value="${fn:split(image,'+') }"/>
+						<img src="${imageRpic[0]}" style="width:200px; height:150px;" />
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
+	<div class="row text-center">
+		<ul class="pagination">
+			<c:choose>
+				<c:when test="${startPageNum ne 1 }">
+					<li>
+						<a href="roomList.do?checkIn=${checkIn }&checkOut=${checkOut }&pageNum=${startPageNum-1 }">&laquo;</a>
+					</li>
+				</c:when>
+				<c:otherwise>
+					<li class="disabled">
+						<a href="javascript:">&laquo;</a>
+					</li>
+				</c:otherwise>
+			</c:choose>
+
+			<c:forEach var="i" begin="${startPageNum }" end="${endPageNum }">
+				<c:choose>
+					<c:when test="${i eq pageNum }">
+						<li class="active">
+							<a href="roomList.do?checkIn=${checkIn }&checkOut=${checkOut }&pageNum=${i }">${i }</a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li>
+							<a href="roomList.do?checkIn=${checkIn }&checkOut=${checkOut }&pageNum=${i }">${i }</a>
+						</li>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
+			<c:choose>
+				<c:when test="${endPageNum lt totalPageCount }">
+					<li>
+						<a href="roomList.do?checkIn=${checkIn }&checkOut=${checkOut }&pageNum=${endPageNum+1 }">&raquo;</a>
+					</li>
+				</c:when>
+				<c:otherwise>
+					<li class="disabled">
+						<a class="muted" href="javascript:">&raquo;</a>
+					</li>
+				</c:otherwise>
+			</c:choose>
+		</ul>
+	</div>
 </div>
 </body>
 </html>

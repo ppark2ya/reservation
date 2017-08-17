@@ -24,35 +24,30 @@ public class RoomController {
 	public ModelAndView roomList(ModelAndView mView,
 			@RequestParam String checkIn,
 			@RequestParam String checkOut,
+			@RequestParam(value="pageNum", required=false) Integer pageNum,
 			RoomDto dto){
+		if(pageNum == null){
+			pageNum = 1;
+		}
 		dto.setCheckIn(checkIn);
 		dto.setCheckOut(checkOut);
+		dto.setPageNum(pageNum);
 		mView = roomService.selRoomListAsc(dto);
 		return mView;
 	}
-
-//	@RequestMapping("/room/infiniteScrollDown")
-//	@ResponseBody
-//	public List<RoomDto> infiniteScrollDown(ModelAndView mView,
-//			@RequestParam int roomSeq,
-//			@RequestParam String checkIn,
-//			@RequestParam String checkOut,
-//			RoomDto dto
-//			){
-//		System.out.println("hello scroll");
-//		dto.setCheckIn(checkIn);
-//		dto.setCheckOut(checkOut);
-//		dto.setRoomSeq(roomSeq-1);
-//		return roomService.scrollDownListAsc(dto);
-//	}
 
 	@RequestMapping("/room/cheapList")
 	public ModelAndView cheapList(ModelAndView mView,
 			@RequestParam String checkIn,
 			@RequestParam String checkOut,
+			@RequestParam(value="pageNum", required=false) Integer pageNum,
 			RoomDto dto){
+		if(pageNum == null){
+			pageNum = 1;
+		}
 		dto.setCheckIn(checkIn);
 		dto.setCheckOut(checkOut);
+		dto.setPageNum(pageNum);
 		mView = roomService.selCheapListAsc(dto);
 		return mView;
 	}
@@ -61,9 +56,14 @@ public class RoomController {
 	public ModelAndView popularList(ModelAndView mView,
 			@RequestParam String checkIn,
 			@RequestParam String checkOut,
+			@RequestParam(value="pageNum", required=false) Integer pageNum,
 			RoomDto dto){
+		if(pageNum == null){
+			pageNum = 1;
+		}
 		dto.setCheckIn(checkIn);
 		dto.setCheckOut(checkOut);
+		dto.setPageNum(pageNum);
 		mView = roomService.selPopListAsc(dto);
 		return mView;
 	}
@@ -72,9 +72,14 @@ public class RoomController {
 	public ModelAndView luxeList(ModelAndView mView,
 			@RequestParam String checkIn,
 			@RequestParam String checkOut,
+			@RequestParam(value="pageNum", required=false) Integer pageNum,
 			RoomDto dto){
+		if(pageNum == null){
+			pageNum = 1;
+		}
 		dto.setCheckIn(checkIn);
 		dto.setCheckOut(checkOut);
+		dto.setPageNum(pageNum);
 		mView = roomService.selLuxeListAsc(dto);
 		return mView;
 	}

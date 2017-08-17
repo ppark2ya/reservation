@@ -20,14 +20,20 @@ public class RoomDto {
 	private String bathAmenityYn;
 	private String wifiFreeYn;
 	private String breakfastYn;
+	private String imgSrc;
 
 	private String checkIn;
 	private String checkOut;
 
+	private int pageNum;
+	private int startRowNum;
+	private int endRowNum;
+
 	public RoomDto(){}
 
 	public RoomDto(int roomSeq, String roomName, int roomCharge, String roomDesc, int availGuest, String smokingYn,
-			String bathAmenityYn, String wifiFreeYn, String breakfastYn, String checkIn, String checkOut) {
+			String bathAmenityYn, String wifiFreeYn, String breakfastYn, String imgSrc, String checkIn, String checkOut,
+			int pageNum, int startRowNum, int endRowNum) {
 		super();
 		this.roomSeq = roomSeq;
 		this.roomName = roomName;
@@ -38,8 +44,12 @@ public class RoomDto {
 		this.bathAmenityYn = bathAmenityYn;
 		this.wifiFreeYn = wifiFreeYn;
 		this.breakfastYn = breakfastYn;
+		this.imgSrc = imgSrc;
 		this.checkIn = checkIn;
 		this.checkOut = checkOut;
+		this.pageNum = pageNum;
+		this.startRowNum = startRowNum;
+		this.endRowNum = endRowNum;
 	}
 
 	public int getRoomSeq() {
@@ -114,6 +124,14 @@ public class RoomDto {
 		this.breakfastYn = breakfastYn;
 	}
 
+	public String getImgSrc() {
+		return imgSrc;
+	}
+
+	public void setImgSrc(String imgSrc) {
+		this.imgSrc = imgSrc;
+	}
+
 	public String getCheckIn() {
 		return checkIn;
 	}
@@ -130,6 +148,28 @@ public class RoomDto {
 		this.checkOut = checkOut;
 	}
 
+	public int getPageNum() {
+		return pageNum;
+	}
 
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+
+	public int getStartRowNum() {
+		return startRowNum;
+	}
+
+	public void setStartRowNum(int startRowNum) {
+		this.startRowNum = startRowNum;
+	}
+
+	public int getEndRowNum() {
+		return endRowNum;
+	}
+
+	public void setEndRowNum(int endRowNum) {
+		this.endRowNum = endRowNum;
+	}
 
 }

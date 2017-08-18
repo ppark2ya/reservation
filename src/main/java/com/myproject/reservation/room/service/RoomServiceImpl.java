@@ -26,8 +26,8 @@ public class RoomServiceImpl implements RoomService{
 		// 보여줄 페이지 데이터의 끝 ResultSet row 번호
 		int endRowNum = pageNum*pageRowCount;
 		// 전체 row 의 갯수를 DB 에서 얻어온다.
-		int totalRow = roomDao.getCount();
-		// 전체 페이지의 갯수 구하기
+		int totalRow = roomDao.getCount(dto);
+		// 전체 페이지 개수
 		int totalPageCount = (int)Math.ceil(totalRow/(double)pageRowCount);
 		// 시작 페이지 번호
 		int startPageNum = 1+((pageNum-1)/pageDisplayCount)*pageDisplayCount;
@@ -90,6 +90,12 @@ public class RoomServiceImpl implements RoomService{
 		List<RoomDto> rooms = roomDao.selLuxeListAsc(dto);
 		mView.addObject("luxe", rooms);
 		return mView;
+	}
+
+	@Override
+	public RoomDto getData(int roomSeq) {
+		RoomDto dto = roomDao.getData(roomSeq);
+		return dto;
 	}
 
 }

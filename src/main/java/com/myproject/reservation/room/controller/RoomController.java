@@ -1,11 +1,10 @@
 package com.myproject.reservation.room.controller;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,6 +18,15 @@ public class RoomController {
 
 	@Autowired
 	private RoomService roomService;
+
+	@RequestMapping("/room/detail")
+	@ResponseBody
+	public Map<String, Object> roomDetail(@RequestParam int roomSeq, RoomDto dto){
+		dto = roomService.getData(roomSeq);
+		Map<String, Object> map = new HashMap<>();
+		map.put("dto", dto);
+		return map;
+	}
 
 	@RequestMapping("/room/roomList")
 	public ModelAndView roomList(ModelAndView mView,
@@ -48,6 +56,7 @@ public class RoomController {
 		dto.setCheckIn(checkIn);
 		dto.setCheckOut(checkOut);
 		dto.setPageNum(pageNum);
+		dto.setRoomType("cheap");
 		mView = roomService.selCheapListAsc(dto);
 		return mView;
 	}
@@ -64,6 +73,7 @@ public class RoomController {
 		dto.setCheckIn(checkIn);
 		dto.setCheckOut(checkOut);
 		dto.setPageNum(pageNum);
+		dto.setRoomType("popular");
 		mView = roomService.selPopListAsc(dto);
 		return mView;
 	}

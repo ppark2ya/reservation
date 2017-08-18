@@ -28,12 +28,13 @@ public class RoomDto {
 	private int pageNum;
 	private int startRowNum;
 	private int endRowNum;
+	private String roomType;
 
 	public RoomDto(){}
 
 	public RoomDto(int roomSeq, String roomName, int roomCharge, String roomDesc, int availGuest, String smokingYn,
 			String bathAmenityYn, String wifiFreeYn, String breakfastYn, String imgSrc, String checkIn, String checkOut,
-			int pageNum, int startRowNum, int endRowNum) {
+			int pageNum, int startRowNum, int endRowNum, String roomType) {
 		super();
 		this.roomSeq = roomSeq;
 		this.roomName = roomName;
@@ -50,6 +51,7 @@ public class RoomDto {
 		this.pageNum = pageNum;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
+		this.roomType = roomType;
 	}
 
 	public int getRoomSeq() {
@@ -170,6 +172,14 @@ public class RoomDto {
 
 	public void setEndRowNum(int endRowNum) {
 		this.endRowNum = endRowNum;
+	}
+
+	public String getRoomType() {
+		return roomType;
+	}
+
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
 	}
 
 }

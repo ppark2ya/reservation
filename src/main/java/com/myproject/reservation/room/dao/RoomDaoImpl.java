@@ -16,31 +16,32 @@ public class RoomDaoImpl implements RoomDao{
 
 	@Override
 	public List<RoomDto> selRoomListAsc(RoomDto dto) {
-		List<RoomDto> rooms = session.selectList("room.selRoomListAsc", dto);
-		return rooms;
+		return session.selectList("room.selRoomListAsc", dto);
 	}
 
 	@Override
 	public List<RoomDto> selCheapListAsc(RoomDto dto) {
-		List<RoomDto> rooms = session.selectList("room.selCheapListAsc", dto);
-		return rooms;
+		return session.selectList("room.selCheapListAsc", dto);
 	}
 
 	@Override
 	public List<RoomDto> selPopListAsc(RoomDto dto) {
-		List<RoomDto> rooms = session.selectList("room.selPopListAsc", dto);
-		return rooms;
+		return session.selectList("room.selPopListAsc", dto);
 	}
 
 	@Override
 	public List<RoomDto> selLuxeListAsc(RoomDto dto) {
-		List<RoomDto> rooms = session.selectList("room.selLuxeListAsc", dto);
-		return rooms;
+		return session.selectList("room.selLuxeListAsc", dto);
 	}
 
 	@Override
-	public int getCount() {
-		return session.selectOne("room.getCount");
+	public int getCount(RoomDto dto) {
+		return session.selectOne("room.getCount", dto);
+	}
+
+	@Override
+	public RoomDto getData(int roomSeq) {
+		return session.selectOne("room.getData", roomSeq);
 	}
 
 }

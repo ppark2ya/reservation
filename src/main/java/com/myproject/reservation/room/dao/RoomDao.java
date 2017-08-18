@@ -9,5 +9,6 @@ public interface RoomDao {
 	public List<RoomDto> selCheapListAsc(RoomDto dto);
 	public List<RoomDto> selPopListAsc(RoomDto dto);
 	public List<RoomDto> selLuxeListAsc(RoomDto dto);
-	public int getCount();
+	public int getCount(RoomDto dto);
+	public RoomDto getData(int roomSeq);
 }

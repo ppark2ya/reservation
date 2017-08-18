@@ -11,4 +11,5 @@ public interface RoomService {
 	public ModelAndView selCheapListAsc(RoomDto dto);
 	public ModelAndView selPopListAsc(RoomDto dto);
 	public ModelAndView selLuxeListAsc(RoomDto dto);
+	public RoomDto getData(int roomSeq);
 }

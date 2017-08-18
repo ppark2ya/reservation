@@ -1,12 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="room">
-	<select id="getCount" resultType="int">
+	<!-- 선택된 방의 데이터를 리턴해주는 쿼리문 -->
+	<select id="getData" parameterType="int" resultType="roomDto">
+		SELECT
+			room_seq AS roomSeq,
+		    room_name AS roomName,
+		    room_charge AS roomCharge,
+		    room_desc AS roomDesc,
+		    avail_guest AS availGuest,
+		    smoking_yn AS smokingYn,
+		    bathAmenity_yn AS bathAmenityYn,
+		    wififree_yn AS wifiFreeYn,
+		    breakfast_yn AS breakfastYn,
+		    img_src AS imgSrc
+		 FROM
+		 	room
+		 WHERE
+		 	room_seq=#{roomSeq}
+	</select>
+
+	<!-- 방의 타입에 따른 방의 개수를 리턴해주는 쿼리문 -->
+	<!-- 가져온 파라미터를 if 문에서 해당 파라미터 명을 그대로 사용해서 비교연산이 가능하다 -->
+	<select id="getCount" resultType="int" parameterType="roomDto">
 		SELECT
 			NVL(MAX(ROWNUM), 0)
 		FROM
 			room
+		<if test="roomType != null">
+		JOIN
+			grade ON (room_charge BETWEEN lowest AND highest)
+		WHERE
+			room_grade = #{roomType}
+		</if>
 	</select>
+
 	<!-- 현재 예약 가능한 방의 리스트(낮은 가격 순 정렬) -->
 	<!-- @param : checkIn, checkOut -->
 	<!-- result : 예약 가능한 방의 정보를 담은 roomDto type -->

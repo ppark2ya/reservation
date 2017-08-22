@@ -25,9 +25,6 @@
     	display: block;
     	max-width: 100%;
     	height: 600px !important;
-
-/* 		width : 500px; */
-/* 		height: 200px; */
 	}
 </style>
 </head>
@@ -138,6 +135,7 @@
 				<li data-target="#myCarousel" data-slide-to="2"></li>
 			</ol>
 			<div class="carousel-inner text-center">
+				<input type="hidden" value=""/>
 				<div class="item active">
 					<img class="room" src=""/>
 				</div>
@@ -161,31 +159,12 @@
         <p class="description">모달의 내용</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Reservation</button>
+      	<a class="btn btn-primary" href="javascript:" onClick="reservation(); return false;">Reservation</a>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script>
-	function showRoom(obj){
-		var roomSeq = $(obj).attr("data-seq");
-		$.ajax({
-			url:"detail.do",
-			method:"get",
-			data:{roomSeq:roomSeq},
-			success:function(data){
-				$(".modal-title").text(data.dto.roomName);
-				var roomImg = data.dto.imgSrc.split('+');
-				$(".room").attr('src', roomImg[0]);
-				$(".bath").attr('src', roomImg[1]);
-				$(".living").attr('src', roomImg[2]);
-				$(".description").text(data.dto.roomDesc);
-				// modal 띄우기
-				$("#myModal").modal('show');
-			}
-		})
-	}
-</script>
+<script src="/resources/js/roomDetail.js"></script>
 </body>
 </html>

@@ -40,10 +40,10 @@
 						<div class="col-12 center">
 							<div class="topmargin-sm">
 								<div class="btn-group">
-									<button type="submit" id="searchBtn" class="btn btn-lg btn-danger" style="margin-right:10px;">Search</button>
-									<button type="submit" id="cheapBtn" class="btn btn-lg btn-danger">Cheap</button>
-									<button type="submit" id="popBtn" class="btn btn-lg btn-danger">Popular</button>
-									<button type="submit" id="luxuryBtn" class="btn btn-lg btn-danger">Luxury</button>
+									<a class="btn btn-lg btn-danger" href="javascript:" onClick="searchRoom(); return false;" style="margin-right:10px;">Search</a>
+									<a class="btn btn-lg btn-danger" href="javascript:" onClick="cheapRoom(); return false;">Cheap</a>
+									<a class="btn btn-lg btn-danger" href="javascript:" onClick="popularRoom(); return false;">Popular</a>
+									<a class="btn btn-lg btn-danger" href="javascript:" onClick="luxuryRoom(); return false;">Luxury</a>
 								</div>&nbsp;&nbsp;
 							</div>
 						</div>

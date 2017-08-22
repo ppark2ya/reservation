@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myproject.reservation.board.dto.BoardDto;
 import com.myproject.reservation.customer.dto.CustomerDto;
 import com.myproject.reservation.customer.service.CustomerService;
+import com.myproject.reservation.resv.dto.ReservationDto;
 
 @Controller
 public class CustomerController {
@@ -69,22 +70,39 @@ public class CustomerController {
 			@RequestParam(defaultValue="") String url,
 			BoardDto boardDto,
 			@RequestParam(value="boardSeq", required=false) Integer boardSeq,
-			@RequestParam(defaultValue="") String keyword,
-			@RequestParam(defaultValue="") String condition,
-			ModelAndView mView, HttpServletRequest request, HttpServletResponse response){
+			@RequestParam(defaultValue="", required=false) String keyword,
+			@RequestParam(defaultValue="", required=false) String condition,
+			ReservationDto resvDto,
+			@RequestParam(value="roomSeq", required=false) Integer roomSeq,
+			@RequestParam(required=false) String checkIn,
+			@RequestParam(required=false) String checkOut,
+			ModelAndView mView,
+			HttpServletRequest request,
+			HttpServletResponse response){
 		String isSave = request.getParameter("isSave");
 		if(isSave != null){
 			Cookie cookie = new Cookie("savedId", custDto.getId());
 			cookie.setMaxAge(60);
 			response.addCookie(cookie);
 		}
+
+		// board 에서 signIn 으로 넘어올 때
 		if(boardSeq == null){
 			boardSeq = 0;
 		}
 		boardDto.setBoardSeq(boardSeq);
 		boardDto.setKeyword(keyword);
 		boardDto.setCondition(condition);
-		mView = customerService.signIn(custDto, boardDto, request, url);
+
+		// reservation 에서 signIn 으로 넘어올 때
+		if(roomSeq == null){
+			roomSeq = 0;
+		}
+		resvDto.setRoomSeq(roomSeq);
+		resvDto.setCheckIn(checkIn);
+		resvDto.setCheckOut(checkOut);
+
+		mView = customerService.signIn(custDto, boardDto, resvDto, request, url);
 		return mView;
 	}
 

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myproject.reservation.board.dto.BoardDto;
 import com.myproject.reservation.customer.dto.CustomerDto;
+import com.myproject.reservation.resv.dto.ReservationDto;
 
 @Aspect
 @Component
@@ -76,6 +77,14 @@ public class LoginAspect {
 		String keyword = null;
 		String condition = null;
 		boolean isBoardDetail = false;
+
+		// 객실 예약버튼을 클릭했을 때 로그인을 안한 경우 parameter 를 받기위한 DTO
+		ReservationDto resvDto = null;
+		int roomSeq = 0;
+		String checkIn = null;
+		String checkOut = null;
+		boolean isReservation = false;
+
 		// 로그인 여부
 		boolean isLogin = false;
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
@@ -93,6 +102,12 @@ public class LoginAspect {
 				keyword = dto.getKeyword();
 				condition = dto.getCondition();
 				isBoardDetail = true;
+			}else if(tmp instanceof ReservationDto){
+				resvDto = (ReservationDto)tmp;
+				roomSeq = resvDto.getRoomSeq();
+				checkIn = resvDto.getCheckIn();
+				checkOut = resvDto.getCheckOut();
+				isReservation = true;
 			}
 		}
 
@@ -111,6 +126,11 @@ public class LoginAspect {
 							+ "&boardSeq=" + boardSeq
 							+ "&keyword=" + keyword
 							+ "&condition=" + condition;
+				}else if(isReservation){
+					redirectUrl = redirectUrl
+							+ "&roomSeq=" + roomSeq
+							+ "&checkIn=" + checkIn
+							+ "&checkOut=" + checkOut;
 				}
 				mView.addObject("redirectUrl", redirectUrl);
 			}

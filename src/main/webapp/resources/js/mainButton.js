@@ -1,8 +1,3 @@
-var isOk = false;
-var getchk = function(){
-	return [$("#checkIn").val(), $("#checkOut").val()];
-}
-
 function getCurrentDate() {
 	var d = new Date();
 
@@ -22,7 +17,7 @@ function leadingZeros(n, digits) {
 	return zero + n;
 }
 
-var branch = function(checkIn, checkOut){
+var checkDate = function(checkIn, checkOut){
 	if(checkIn == "" && checkOut == ""){
 		alert("날짜를 선택해주세요");
 		return;
@@ -48,41 +43,41 @@ var branch = function(checkIn, checkOut){
 			return;
 		}
 	}
-	isOk = true;
+	return true;
 }
 
-$("#searchBtn").click(function(){
-	var checkIn = getchk()[0];
-	var checkOut = getchk()[1];
-	branch(checkIn, checkOut);
+function searchRoom(){
+	var checkIn = $("#checkIn").val();
+	var checkOut = $("#checkOut").val();
+	var isOk = checkDate(checkIn, checkOut);
 	if(isOk){
 		location.href = "room/roomList.do?checkIn="+checkIn+"&checkOut="+checkOut;
 	}
-});
+}
 
-$("#cheapBtn").click(function(){
-	var checkIn = getchk()[0];
-	var checkOut = getchk()[1];
-	branch(checkIn, checkOut);
+function cheapRoom(){
+	var checkIn = $("#checkIn").val();
+	var checkOut = $("#checkOut").val();
+	var isOk = checkDate(checkIn, checkOut);
 	if(isOk){
 		location.href = "room/cheapList.do?checkIn="+checkIn+"&checkOut="+checkOut;
 	}
-});
+}
 
-$("#popBtn").click(function(){
-	var checkIn = getchk()[0];
-	var checkOut = getchk()[1];
-	branch(checkIn, checkOut);
+function popularRoom(){
+	var checkIn = $("#checkIn").val();
+	var checkOut = $("#checkOut").val();
+	var isOk = checkDate(checkIn, checkOut);
 	if(isOk){
 		location.href = "room/popularList.do?checkIn="+checkIn+"&checkOut="+checkOut;
 	}
-});
+}
 
-$("#luxuryBtn").click(function(){
-	var checkIn = getchk()[0];
-	var checkOut = getchk()[1];
-	branch(checkIn, checkOut);
+function luxuryRoom(){
+	var checkIn = $("#checkIn").val();
+	var checkOut = $("#checkOut").val();
+	var isOk = checkDate(checkIn, checkOut);
 	if(isOk){
 		location.href = "room/luxuryList.do?checkIn="+checkIn+"&checkOut="+checkOut;
 	}
-});
+}

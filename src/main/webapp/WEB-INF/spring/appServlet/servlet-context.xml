@@ -55,6 +55,8 @@
 	<context:component-scan base-package="com.myproject.reservation.aspect"/>
 	<context:component-scan base-package="com.myproject.reservation.customer.*"/>
 	<context:component-scan base-package="com.myproject.reservation.board.*"/>
+	<context:component-scan base-package="com.myproject.reservation.room.*"/>
+	<context:component-scan base-package="com.myproject.reservation.resv.*"/>
 
 	<!-- View Page 설정 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

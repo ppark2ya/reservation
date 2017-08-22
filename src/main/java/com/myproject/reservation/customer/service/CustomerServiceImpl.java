@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myproject.reservation.board.dto.BoardDto;
 import com.myproject.reservation.customer.dao.CustomerDao;
 import com.myproject.reservation.customer.dto.CustomerDto;
+import com.myproject.reservation.resv.dto.ReservationDto;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
@@ -18,36 +19,45 @@ public class CustomerServiceImpl implements CustomerService{
 	private CustomerDao customerDao;
 
 	@Override
-	public ModelAndView signUp(CustomerDto dto, String url, HttpSession session) {
+	public ModelAndView signUp(CustomerDto custDto, String url, HttpSession session) {
 		ModelAndView mView = new ModelAndView();
 		if(url.equals("")){
-			customerDao.insert(dto);
+			customerDao.insert(custDto);
 			mView.setViewName("redirect:/home.do");
 		}else{
-			customerDao.insert(dto);
-			session.setAttribute("id", dto.getId());
+			customerDao.insert(custDto);
+			session.setAttribute("id", custDto.getId());
 			mView.setViewName("redirect:"+url);
 		}
 		return mView;
 	}
 
 	@Override
-	public ModelAndView signIn(CustomerDto custDto, BoardDto boardDto,
+	public ModelAndView signIn(CustomerDto custDto, BoardDto boardDto, ReservationDto resvDto,
 			HttpServletRequest request, String url) {
+		ModelAndView mView = new ModelAndView();
+		// 게시판에서 로그인폼으로 리다이렉트 되었을 때 필요한 변수들
 		int boardSeq = boardDto.getBoardSeq();
 		String keyword = boardDto.getKeyword();
 		String condition = boardDto.getCondition();
+		// 객실 예약에서 로그인폼으로 리다이렉트 되었을 때 필요한 변수들
+		int roomSeq = resvDto.getRoomSeq();
+		String checkIn = resvDto.getCheckIn();
+		String checkOut = resvDto.getCheckOut();
+
+		// 아이디 검증
 		boolean isValid = customerDao.isValid(custDto);
-		ModelAndView mView = new ModelAndView();
 		if(!isValid){
 			mView.setViewName("customer/signin_error");
 		}else{
 			request.getSession().setAttribute("id", custDto.getId());
 			if(url.equals("")){
 				mView.setViewName("redirect:/home.do");
-			}else{
+			}else if(url.contains("/board")){
+				// 글쓰기폼으로 들어갈 때
 				if(boardSeq == 0){
 					mView.setViewName("redirect:"+url);
+				// 게시글 상세보기로 들어갈 때
 				}else{
 					String redirectUrl = url
 							+ "?boardSeq=" + boardSeq
@@ -55,6 +65,12 @@ public class CustomerServiceImpl implements CustomerService{
 							+ "&condition=" + condition;
 					mView.setViewName("redirect:"+redirectUrl);
 				}
+			}else if(url.contains("/reservation")){
+				String redirectUrl = url
+						+ "?roomSeq=" + roomSeq
+						+ "&checkIn=" + checkIn
+						+ "&checkOut=" + checkOut;
+				mView.setViewName("redirect:"+redirectUrl);
 			}
 		}
 		return mView;

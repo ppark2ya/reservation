@@ -53,7 +53,18 @@
 
 		<div class="col-xs-2"></div>
 		<div class="col-xs-8 col-md-offset-4">
+		<c:if test="${empty param.url }">
+			<form action="resetpassword.do" method="post" id="myForm">
+		</c:if>
+		<c:if test="${param.url eq '/board/writeform.do' }">
+			<form action="resetpassword.do?url=${param.url }" method="post" id="myForm">
+		</c:if>
+		<c:if test="${param.url eq '/board/detail.do' }">
 			<form action="resetpassword.do?url=${param.url }&boardSeq=${param.boardSeq}&keyword=${param.keyword}&condition=${param.condition}" method="post" id="myForm">
+		</c:if>
+		<c:if test="${param.url eq '/reservation/reservationForm.do' }">
+			<form action="resetpassword.do?url=${param.url }&roomSeq=${param.roomSeq}&checkIn=${param.checkIn}&checkOut=${param.checkOut}" method="post" id="myForm">
+		</c:if>
 				<div class="text-center">
 					<h2 style="margin-bottom: 30px;">Reset your password</h2>
 				</div>
@@ -72,7 +83,7 @@
 		        		<p class="help-block">Use at least one special letter, one numeral, and six characters.</p>
 	          			<span class="glyphicon glyphicon-ok form-control-feedback"></span>
 					</div>
-						<button type="submit" class="btn btn-primary btn-block" tabindex="3">Send new password</button>
+					<button id="join" type="submit" class="btn btn-primary btn-block" tabindex="3">Send new password</button>
 				</div>
 			</form>
 		</div>
@@ -80,7 +91,7 @@
 	</div>
 <script>
 	// 비밀번호를 검증할 정규 표현식
-	var reg3 = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{6,20}$/;
+	var reg = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{6,20}$/;
 	// 비밀번호 검증 통과 여부
 	var isPwdValid = false;
 
@@ -89,7 +100,7 @@
    		var inputPwd = $(this).val();
 
    		// 정규표현식으로 검증한다.
-   		if(reg3.test(inputPwd)){
+   		if(reg.test(inputPwd)){
    			makeSuccess($(this));
    			isPwdValid = true;
    		}else{
@@ -100,7 +111,7 @@
    	});
 
 	function changeButtonState(){
-		if(isEmailValid && isNumberValid){
+		if(isPwdValid){
 			$('#join')
 			.removeAttr('disabled');
 		}else{

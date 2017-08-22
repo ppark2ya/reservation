@@ -31,7 +31,18 @@
         		<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" id="headerlogo">
         	</a>
         </div>
-        <form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal">
+        <c:if test="${empty param.url }">
+			<form action="signup.do" method="post" id="myForm" class="form-horizontal">
+		</c:if>
+		<c:if test="${param.url eq '/board/writeform.do' }">
+			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal">
+		</c:if>
+		<c:if test="${param.url eq '/board/detail.do' }">
+			<form action="signup.do?url=${param.url }&boardSeq=${param.boardSeq}&keyword=${param.keyword}&condition=${param.condition}" method="post" id="myForm" class="form-horizontal">
+		</c:if>
+		<c:if test="${param.url eq '/reservation/reservationForm.do' }">
+			<form action="signup.do?url=${param.url }&roomSeq=${param.roomSeq}&checkIn=${param.checkIn}&checkOut=${param.checkOut}" method="post" id="myForm" class="form-horizontal">
+		</c:if>
 	        <div class="form-group has-feedback">
 	            <label class="col-sm-3 control-label" for="id">ID</label>
 	          	<div class="col-sm-6">

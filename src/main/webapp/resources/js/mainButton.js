@@ -46,38 +46,20 @@ var checkDate = function(checkIn, checkOut){
 	return true;
 }
 
-function searchRoom(){
+function showRoom(obj){
+	var clickType = $(obj).attr("data-type");
 	var checkIn = $("#checkIn").val();
 	var checkOut = $("#checkOut").val();
 	var isOk = checkDate(checkIn, checkOut);
 	if(isOk){
-		location.href = "room/roomList.do?checkIn="+checkIn+"&checkOut="+checkOut;
-	}
-}
-
-function cheapRoom(){
-	var checkIn = $("#checkIn").val();
-	var checkOut = $("#checkOut").val();
-	var isOk = checkDate(checkIn, checkOut);
-	if(isOk){
-		location.href = "room/cheapList.do?checkIn="+checkIn+"&checkOut="+checkOut;
-	}
-}
-
-function popularRoom(){
-	var checkIn = $("#checkIn").val();
-	var checkOut = $("#checkOut").val();
-	var isOk = checkDate(checkIn, checkOut);
-	if(isOk){
-		location.href = "room/popularList.do?checkIn="+checkIn+"&checkOut="+checkOut;
-	}
-}
-
-function luxuryRoom(){
-	var checkIn = $("#checkIn").val();
-	var checkOut = $("#checkOut").val();
-	var isOk = checkDate(checkIn, checkOut);
-	if(isOk){
-		location.href = "room/luxuryList.do?checkIn="+checkIn+"&checkOut="+checkOut;
+		if(clickType == "all"){
+			location.href = "room/roomList.do?checkIn="+checkIn+"&checkOut="+checkOut;
+		}else if(clickType == "cheap"){
+			location.href = "room/cheapList.do?checkIn="+checkIn+"&checkOut="+checkOut;
+		}else if(clickType == "pop"){
+			location.href = "room/popularList.do?checkIn="+checkIn+"&checkOut="+checkOut;
+		}else if(clickType == "luxe"){
+			location.href = "room/luxuryList.do?checkIn="+checkIn+"&checkOut="+checkOut;
+		}
 	}
 }

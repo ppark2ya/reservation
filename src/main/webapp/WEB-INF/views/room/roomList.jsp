@@ -59,7 +59,7 @@
 						<img class="roomImg" src="${imageRpic[0]}" style="width:200px; height:150px;" />
 					</td>
 					<td>${tmp.roomSeq }</td>
-					<td><a href="javascript:" onClick="showRoom(this); return false;" data-seq=${tmp.roomSeq }>${tmp.roomName }</a></td>
+					<td><a href="#" onClick="showRoom(this); return false;" data-seq=${tmp.roomSeq }>${tmp.roomName }</a></td>
 					<td>${tmp.roomCharge }</td>
 					<td>${tmp.roomDesc }</td>
 					<td>${tmp.availGuest }</td>

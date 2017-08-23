@@ -12,9 +12,6 @@
 					<span data-animate="fadeInUp" data-delay="300" style="margin-bottom:50px;"><strong style="color:#fff;">Compare prices and deal for over 18000 hotels <br/>All over the World!</strong></span>
 
 					<form action="" id="homeSearch" method="POST">
-						<input type="hidden" id="rc-ro" name="rc-ro" value="1" />
-						<input type="hidden" id="rc-lo" name="rc-lo" value="" class="rc-cl-lo"/>
-						<input type="hidden" id="rc-lt" name="rc-lt" value="" class="rc-cl-lt"/>
 						<div class="row">
 							<div class="col-md-3"></div>
 							<div class="col-md-3">
@@ -40,10 +37,10 @@
 						<div class="col-12 center">
 							<div class="topmargin-sm">
 								<div class="btn-group">
-									<a class="btn btn-lg btn-danger" data-type="all" href="javascript:" onClick="showRoom(this); return false;" style="margin-right:10px;">Search</a>
-									<a class="btn btn-lg btn-danger" data-type="cheap" href="javascript:" onClick="showRoom(this); return false">Cheap</a>
-									<a class="btn btn-lg btn-danger" data-type="pop" href="javascript:" onClick="showRoom(this); return false">Popular</a>
-									<a class="btn btn-lg btn-danger" data-type="luxe" href="javascript:" onClick="showRoom(this); return false">Luxury</a>
+									<a class="btn btn-lg btn-danger" data-type="all" href="#" onClick="showRoom(this); return false;" style="margin-right:10px;">Search</a>
+									<a class="btn btn-lg btn-danger" data-type="cheap" href="#" onClick="showRoom(this); return false;">Cheap</a>
+									<a class="btn btn-lg btn-danger" data-type="pop" href="#" onClick="showRoom(this); return false;">Popular</a>
+									<a class="btn btn-lg btn-danger" data-type="luxe" href="#" onClick="showRoom(this); return false;">Luxury</a>
 								</div>&nbsp;&nbsp;
 							</div>
 						</div>

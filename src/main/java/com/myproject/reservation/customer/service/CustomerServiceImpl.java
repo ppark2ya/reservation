@@ -19,15 +19,41 @@ public class CustomerServiceImpl implements CustomerService{
 	private CustomerDao customerDao;
 
 	@Override
-	public ModelAndView signUp(CustomerDto custDto, String url, HttpSession session) {
+	public ModelAndView signUp(CustomerDto custDto, BoardDto boardDto, ReservationDto resvDto,
+			HttpSession session, String url) {
 		ModelAndView mView = new ModelAndView();
+		// 게시판에서 로그인폼으로 리다이렉트 되었을 때 필요한 변수들
+		int boardSeq = boardDto.getBoardSeq();
+		String keyword = boardDto.getKeyword();
+		String condition = boardDto.getCondition();
+		// 객실 예약에서 로그인폼으로 리다이렉트 되었을 때 필요한 변수들
+		int roomSeq = resvDto.getRoomSeq();
+		String checkIn = resvDto.getCheckIn();
+		String checkOut = resvDto.getCheckOut();
+
+		customerDao.insert(custDto);
 		if(url.equals("")){
-			customerDao.insert(custDto);
 			mView.setViewName("redirect:/home.do");
 		}else{
-			customerDao.insert(custDto);
 			session.setAttribute("id", custDto.getId());
-			mView.setViewName("redirect:"+url);
+			if(url.contains("/board")){
+				if(boardSeq == 0){
+					mView.setViewName("redirect:"+url);
+				}else{
+					String redirectUrl = url
+							+ "?boardSeq=" + boardSeq
+							+ "&keywowrd=" + keyword
+							+ "&condition=" + condition;
+					mView.setViewName("redirect:"+redirectUrl);
+				}
+
+			}else if(url.contains("/reservation")){
+				String redirectUrl = url
+						+ "?roomSeq=" + roomSeq
+						+ "&checkIn=" + checkIn
+						+ "&checkOut=" + checkOut;
+				mView.setViewName("redirect:"+redirectUrl);
+			}
 		}
 		return mView;
 	}

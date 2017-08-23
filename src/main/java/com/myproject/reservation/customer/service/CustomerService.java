@@ -10,7 +10,8 @@ import com.myproject.reservation.customer.dto.CustomerDto;
 import com.myproject.reservation.resv.dto.ReservationDto;
 
 public interface CustomerService {
-	public ModelAndView signUp(CustomerDto dto, String url, HttpSession session);
+	public ModelAndView signUp(CustomerDto custDto, BoardDto boardDto, ReservationDto resvDto,
+			HttpSession session, String url);
 	public ModelAndView signIn(CustomerDto custDto, BoardDto boardDto, ReservationDto resvDto,
 			HttpServletRequest request, String url);
 	public void delete(HttpSession session);

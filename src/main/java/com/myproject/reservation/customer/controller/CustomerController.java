@@ -42,10 +42,32 @@ public class CustomerController {
 
 	@RequestMapping("/customer/signup")
 	public ModelAndView enCryptsignUp(ModelAndView mView,
-			@ModelAttribute CustomerDto dto,
-			@RequestParam(defaultValue="") String url,
+			@ModelAttribute CustomerDto custDto,
+			@RequestParam(defaultValue="", required=false) String url,
+			BoardDto boardDto,
+			@RequestParam(value="boardSeq", required=false) Integer boardSeq,
+			@RequestParam(defaultValue="", required=false) String keyword,
+			@RequestParam(defaultValue="", required=false) String condition,
+			ReservationDto resvDto,
+			@RequestParam(value="roomSeq", required=false) Integer roomSeq,
+			@RequestParam(required=false) String checkIn,
+			@RequestParam(required=false) String checkOut,
 			HttpSession session){
-		mView = customerService.signUp(dto, url, session);
+		if(boardSeq == null){
+			boardSeq = 0;
+		}
+		boardDto.setBoardSeq(boardSeq);
+		boardDto.setKeyword(keyword);
+		boardDto.setCondition(condition);
+
+		if(roomSeq == null){
+			roomSeq = 0;
+		}
+		resvDto.setRoomSeq(roomSeq);
+		resvDto.setCheckIn(checkIn);
+		resvDto.setCheckOut(checkOut);
+
+		mView = customerService.signUp(custDto, boardDto, resvDto, session, url);
 		return mView;
 	}
 
@@ -67,7 +89,7 @@ public class CustomerController {
 
 	@RequestMapping("/customer/signin")
 	public ModelAndView enCryptsignIn(@ModelAttribute CustomerDto custDto,
-			@RequestParam(defaultValue="") String url,
+			@RequestParam(defaultValue="", required=false) String url,
 			BoardDto boardDto,
 			@RequestParam(value="boardSeq", required=false) Integer boardSeq,
 			@RequestParam(defaultValue="", required=false) String keyword,

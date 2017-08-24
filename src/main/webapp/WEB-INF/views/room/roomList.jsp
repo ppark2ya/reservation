@@ -159,7 +159,7 @@
         <p class="description">모달의 내용</p>
       </div>
       <div class="modal-footer">
-      	<a class="btn btn-primary" href="javascript:" onClick="reservation(); return false;">Reservation</a>
+      	<a class="btn btn-primary" href="#" onClick="reservation(); return false;">Reservation</a>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

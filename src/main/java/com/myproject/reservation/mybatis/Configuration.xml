@@ -8,6 +8,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<typeAlias type="com.myproject.reservation.board.dto.BoardCommentDto" alias="boardCommentDto"/>
 		<typeAlias type="com.myproject.reservation.customer.dto.CustomerDto" alias="customerDto"/>
 		<typeAlias type="com.myproject.reservation.room.dto.RoomDto" alias="roomDto"/>
+		<typeAlias type="com.myproject.reservation.resv.dto.ReservationDto" alias="resvDto"/>
 	</typeAliases>
 
 	<!-- sql 문을 정의하고 있는 xml 문서 -->

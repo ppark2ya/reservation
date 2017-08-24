@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="reservation">
-	
+	<insert id="insert" parameterType="resvDto">
+		INSERT INTO
+			reservation
+		VALUES
+			(rv_seq.NEXTVAL, #{id}, #{roomSeq}, #{checkIn}, #{checkOut}, #{amount}, #{payment}, #{numofRvcust})
+	</insert>
+
+	<update id="changeDateState" parameterType="resvDto">
+		UPDATE
+			room_order
+		SET
+			resv_yn = 'n'
+		WHERE
+			room_seq = #{roomSeq}
+		AND
+			resv_date BETWEEN #{checkIn} AND #{checkOut}
+	</update>
 </mapper>

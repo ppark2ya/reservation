@@ -14,7 +14,6 @@
 <link rel="stylesheet" href="/resources/css/colors.css" />
 <link rel="stylesheet" href="/resources/css/custom.css" />
 <script src="/resources/js/jquery-3.2.0.js"></script>
-<script src="/resources/js/jquery-ui.min.js"></script>
 <script src="/resources/js/bootstrap.js"></script>
 <script src="/resources/js/jquery.datetimepicker.full.min.js"></script>
 <script src="/resources/js/angular.min.js"></script>

@@ -36,7 +36,6 @@ public class CustomerController {
 	@RequestMapping("/customer/checkid")
 	@ResponseBody
 	public Map<String, Object> checkId(@RequestParam(defaultValue="", required=false) String inputId){
-		System.out.println(inputId);
 		boolean canUse = customerService.canUseId(inputId);
 		Map<String, Object> map = new HashMap<>();
 		map.put("canUse", canUse);

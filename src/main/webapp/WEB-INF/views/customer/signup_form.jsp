@@ -25,25 +25,25 @@
         	</a>
         </div>
         <c:if test="${empty param.url }">
-			<form action="signup.do" method="post" id="myForm" class="form-horizontal" name="myForm">
+			<form action="signup.do" method="post" id="myForm" class="form-horizontal" name="myForm" novalidate>
 		</c:if>
 		<c:if test="${param.url eq '/board/writeform.do' }">
-			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm">
+			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm" novalidate>
 		</c:if>
 		<c:if test="${param.url eq '/board/detail.do' }">
-			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm">
+			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm" novalidate>
 			<input type="hidden" name="boardSeq" value="${param.boardSeq }"/>
 			<input type="hidden" name="keyword" value="${param.keyword }"/>
 			<input type="hidden" name="condition" value="${param.condition }"/>
 		</c:if>
 		<c:if test="${param.url eq '/reservation/reservationForm.do' }">
-			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm">
+			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm" novalidate>
 			<input type="hidden" name="roomSeq" value="${param.roomSeq }"/>
 			<input type="hidden" name="checkIn" value="${param.checkIn }"/>
 			<input type="hidden" name="checkOut" value="${param.checkOut }"/>
 		</c:if>
 	        <div class="form-group has-feedback"
-	        	ng-class="{'has-success': myForm.id.$valid && canUse,'has-error': myForm.id.$invalid && myForm.id.$dirty || !canUse}">
+	        	ng-class="{'has-success': myForm.id.$valid && canUse, 'has-error': (myForm.id.$invalid && myForm.id.$dirty) || (myForm.id.$dirty && !canUse) }">
 	            <label class="col-sm-3 control-label" for="id">ID</label>
 	          	<div class="col-sm-6">
 	            	<input class="form-control" id="id" name="id" type="text" placeholder="Enter your ID"
@@ -53,8 +53,8 @@
 	            		ng-minlength="4"
 	            		ng-maxlength="12">
 	          		<span class="form-control-feedback glyphicon glyphicon-ok" ng-show="myForm.id.$valid && canUse"></span>
-					<span class="form-control-feedback glyphicon glyphicon-remove" ng-show="myForm.id.$invalid && myForm.id.$dirty || !canUse"></span>
-<!-- 	            	<p class="help-block" ng-show="myForm.id.$invalid && myForm.id.$dirty">이미 있는 ID 입니다</p> -->
+					<span class="form-control-feedback glyphicon glyphicon-remove" ng-show="(myForm.id.$invalid && myForm.id.$dirty) || (myForm.id.$dirty && !canUse)"></span>
+	            	<p class="help-block" ng-show="myForm.id.$dirty && !canUse">이미 있는 ID 입니다</p>
 	            	<p class="help-block" ng-show="myForm.id.$error.minlength ">4 글자 이상 입력하세요</p>
 	            	<p class="help-block" ng-show="myForm.id.$error.maxlength ">12 글자 이하 입력하세요</p>
 	          	</div>
@@ -114,25 +114,6 @@
           <hr>
         </div>
       </article>
-
-<script>
-	angular.module("myApp", [])
-	.controller("Ctrl", function($scope, $http){
-		$scope.canUse=false;
-		$scope.checkId = {};
-		$scope.getId = function(){
-			// var inputId = angular.element(document.querySelector("#id")).val();
-			console.log($scope.checkId);
-			$http({
-				url: "checkid.do",
-				method: "get",
-				params: $scope.checkId
-			}).success(function(data){
-				$scope.canUse = data.canUse;
-				console.log($scope.canUse);
-			})
-		}
-	});
-</script>
+<script src="/resources/js/checkId.js"></script>
 </body>
 </html>

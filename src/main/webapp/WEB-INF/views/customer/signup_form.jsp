@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
-<html>
+<html ng-app="myApp">
 <head>
 <meta charset="UTF-8">
 <title>JOIN Reservation.com</title>
@@ -14,49 +14,62 @@
 	#headerlogo{
 		margin : 50px 0px 0px 0px;
 	}
-	#myForm .help-block{
-		display: none;
-	}
-	.form-control-feedback{
-		display: none;
-		padding-right: 15px;
-	}
 </style>
 </head>
-<body>
+<body ng-controller="Ctrl">
       <article class="container">
         <div class="col-md-12">
         <div class="page-header text-center">
-        	<a href="${pageContext.request.contextPath }/home.do">
-        		<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" id="headerlogo">
+        	<a href="/home.do">
+        		<img src="/resources/images/reservation.PNG" id="headerlogo">
         	</a>
         </div>
         <c:if test="${empty param.url }">
-			<form action="signup.do" method="post" id="myForm" class="form-horizontal">
+			<form action="signup.do" method="post" id="myForm" class="form-horizontal" name="myForm">
 		</c:if>
 		<c:if test="${param.url eq '/board/writeform.do' }">
-			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal">
+			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm">
 		</c:if>
 		<c:if test="${param.url eq '/board/detail.do' }">
-			<form action="signup.do?url=${param.url }&boardSeq=${param.boardSeq}&keyword=${param.keyword}&condition=${param.condition}" method="post" id="myForm" class="form-horizontal">
+			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm">
+			<input type="hidden" name="boardSeq" value="${param.boardSeq }"/>
+			<input type="hidden" name="keyword" value="${param.keyword }"/>
+			<input type="hidden" name="condition" value="${param.condition }"/>
 		</c:if>
 		<c:if test="${param.url eq '/reservation/reservationForm.do' }">
-			<form action="signup.do?url=${param.url }&roomSeq=${param.roomSeq}&checkIn=${param.checkIn}&checkOut=${param.checkOut}" method="post" id="myForm" class="form-horizontal">
+			<form action="signup.do?url=${param.url }" method="post" id="myForm" class="form-horizontal" name="myForm">
+			<input type="hidden" name="roomSeq" value="${param.roomSeq }"/>
+			<input type="hidden" name="checkIn" value="${param.checkIn }"/>
+			<input type="hidden" name="checkOut" value="${param.checkOut }"/>
 		</c:if>
-	        <div class="form-group has-feedback">
+	        <div class="form-group has-feedback"
+	        	ng-class="{'has-success': myForm.id.$valid && canUse,'has-error': myForm.id.$invalid && myForm.id.$dirty || !canUse}">
 	            <label class="col-sm-3 control-label" for="id">ID</label>
 	          	<div class="col-sm-6">
-	            	<input class="form-control" id="id" name="id" type="text" placeholder="Enter your ID">
-	            	<p class="help-block">can't use this ID</p>
-	          		<span class="glyphicon form-control-feedback"></span>
+	            	<input class="form-control" id="id" name="id" type="text" placeholder="Enter your ID"
+	            		ng-model="checkId.inputId"
+	            		ng-required="true"
+	            		ng-keyup="getId()"
+	            		ng-minlength="4"
+	            		ng-maxlength="12">
+	          		<span class="form-control-feedback glyphicon glyphicon-ok" ng-show="myForm.id.$valid && canUse"></span>
+					<span class="form-control-feedback glyphicon glyphicon-remove" ng-show="myForm.id.$invalid && myForm.id.$dirty || !canUse"></span>
+<!-- 	            	<p class="help-block" ng-show="myForm.id.$invalid && myForm.id.$dirty">이미 있는 ID 입니다</p> -->
+	            	<p class="help-block" ng-show="myForm.id.$error.minlength ">4 글자 이상 입력하세요</p>
+	            	<p class="help-block" ng-show="myForm.id.$error.maxlength ">12 글자 이하 입력하세요</p>
 	          	</div>
 	        </div>
-	        <div class="form-group">
-	          <label class="col-sm-3 control-label" for="pwd">Password</label>
+	        <div class="form-group has-feedback"
+	        	ng-class="{'has-success':myForm.pwd.$valid, 'has-error':myForm.pwd.$invalid && myForm.pwd.$dirty}">
+	          	<label class="col-sm-3 control-label" for="pwd">Password</label>
 		        <div class="col-sm-6">
-		        	<input class="form-control" id="pwd" name="pwd" type="password" placeholder="Enter your password">
-		        	<p class="help-block">Use at least one special letter, one numeral, and six characters.</p>
-	          		<span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        	<input class="form-control" id="pwd" name="pwd" type="password" placeholder="Enter your password"
+		        		ng-model="pwd"
+		        		ng-required="true"
+		        		ng-pattern="/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{6,20}$/">
+	          		<span class="form-control-feedback glyphicon glyphicon-ok" ng-show="myForm.pwd.$valid"></span>
+					<span class="form-control-feedback glyphicon glyphicon-remove" ng-show="myForm.pwd.$invalid && myForm.pwd.$dirty"></span>
+		        	<p class="help-block" ng-show="myForm.pwd.$invalid && myForm.pwd.$dirty ">Use at least one special letter, one numeral, and six characters.</p>
 		        </div>
 	        </div>
 	        <div class="form-group">
@@ -65,193 +78,61 @@
 	            	<input class="form-control" id="name" name="name" type="text" placeholder="Enter your name">
 	          	</div>
 	        </div>
-	        <div class="form-group">
+	        <div class="form-group has-feedback"
+	        	ng-class="{'has-success':myForm.phone.$valid, 'has-error':myForm.phone.$invalid && myForm.phone.$dirty}">
 	            <label class="col-sm-3 control-label" for="phone">Phone number</label>
 	          	<div class="col-sm-6">
-	            	<input class="form-control" id="phone" name="phone" type="text" placeholder="Enter your phone number">
-	            	<span class="glyphicon glyphicon-ok form-control-feedback"></span>
-		          	<p class="help-block">Please re-enter your phone number</p>
+	            	<input class="form-control" id="phone" name="phone" type="text" placeholder="Enter your phone number"
+	            		ng-model="phone"
+	            		ng-required="true"
+	            		ng-pattern="/^\d{3}-\d{3,4}-\d{4}$/">
+	          		<span class="form-control-feedback glyphicon glyphicon-ok" ng-show="myForm.phone.$valid"></span>
+					<span class="form-control-feedback glyphicon glyphicon-remove" ng-show="myForm.phone.$invalid && myForm.phone.$dirty"></span>
+		          	<p class="help-block" ng-show="myForm.phone.$invalid && myForm.phone.$dirty">Please re-enter your phone number</p>
 	          	</div>
 	        </div>
-	       <div class="form-group">
+	       <div class="form-group has-feedback"
+	       	ng-class="{'has-success':myForm.email.$valid, 'has-error':myForm.email.$invalid && myForm.email.$dirty}">
 	          <label class="col-sm-3 control-label" for="email">Email Address</label>
 		        <div class="col-sm-6">
-		          <input class="form-control" id="email" name="email" type="email" placeholder="Enter your email address">
-		          <span class="glyphicon glyphicon-ok form-control-feedback"></span>
-		          <p class="help-block">Please re-enter your email</p>
+		          <input class="form-control" id="email" name="email" type="email" placeholder="Enter your email address"
+		          	ng-model="email"
+		          	ng-required="true"
+		          	ng-pattern="/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/">
+	          	  <span class="form-control-feedback glyphicon glyphicon-ok" ng-show="myForm.email.$valid"></span>
+				  <span class="form-control-feedback glyphicon glyphicon-remove" ng-show="myForm.email.$invalid && myForm.email.$dirty"></span>
+		          <p class="help-block" ng-show="myForm.email.$invalid && myForm.email.$dirty">Please re-enter your email</p>
 		        </div>
 	        </div>
 
 	        <div class="form-group">
 	          <div class="col-sm-12 text-center">
-	            <button type="submit" id="join" class="btn btn-primary">Create an account</button>
+	            <button type="submit" ng-disabled="myForm.$invalid" class="btn btn-primary">Create an account</button>
 	          </div>
 	        </div>
         </form>
           <hr>
         </div>
       </article>
+
 <script>
-	// 이메일을 검증할 정규표현식
-	var reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-	// 이메일 검증 통과 여부
-	var isEmailValid = false;
-
-	// 전화번호를 검증할 정규 표현식
-	var reg2 = /^\d{3}-\d{3,4}-\d{4}$/;
-	// 전화번호 검증 통과 여부
-	var isNumberValid = false;
-
-	// 비밀번호를 검증할 정규 표현식
-	var reg3 = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{6,20}$/;
-	// 비밀번호 검증 통과 여부
-	var isPwdValid = false;
-
-   	$("#join").click(function(){
-    	alert("Complete!!");
-//     	location.href ="${pageContext.request.contextPath }/home.do";
-   	});
-
-  	//아이디 입력란에 keyup 이벤트가 발생했을때 실행할 함수 등록
-	$("#id").on("keyup", function(){
-		//입력한 아이디 읽어오기
-		var inputId=$("#id").val();
-		//ajax 요청을 이용해서 서버에 전송
-		$.ajax({
-			url:"checkid.do",
-			method:"get",
-			data:{inputId:inputId},
-
-			success:function(data){
-				console.log(data);
-				$("#id").parent()
-				.removeClass("has-success has-error");
-				if(data.canUse){
-					$("#id")
-					.parent()
-					.addClass("has-success")
-					.find(".help-block")
-					.hide()
-					.parent()
-					.find(".glyphicon")
-					.removeClass("glyphicon-remove")
-					.addClass("glyphicon-ok");
-				}else{
-					$("#id")
-					.parent()
-					.addClass("has-error")
-					.find(".help-block")
-					.show()
-					.parent()
-					.find(".glyphicon")
-					.removeClass("glyphicon-ok")
-					.addClass("glyphicon-remove");
-				}
-			}
-		});
-	});
-
-   	$('#myForm').on('submit', function(){
-   		// 이메일 형식이 유효하지 않으면
-   		if(!isEmailValid && !isNumberValid && !isPwdValid){
-   			// 폼전송 막기
-   			return false;
-   		}
-   	});
-
-   	$('#email').keyup(function(){
-   		// 입력한 이메일을 읽어온다.
-   		var inputEmail = $(this).val();
-
-   		// 정규표현식으로 검증한다..
-   		if(reg.test(inputEmail)){
-   			// 성공 상태 표시하기
-   			makeSuccess($(this));
-   			isEmailValid = true;
-   		}else{
-   			// 실패 상태 표시하기
-   			makeError($(this));
-   			isEmailValid = false;
-   		}
-
-   		changeButtonState();
-   	});
-
-   	$('#phone').keyup(function(){
-   		// 입력한 전화번호를 읽어온다.
-   		var inputNumber = $(this).val();
-
-   		// 정규표현식으로 검증한다.
-   		if(reg2.test(inputNumber)){
-   			makeSuccess($(this));
-   			isNumberValid = true;
-   		}else{
-   			makeError($(this));
-   			isNumberValid = false;
-   		}
-   		changeButtonState();
-   	});
-
-   	$('#pwd').keyup(function(){
-   		// 입력한 비밀번호를 읽어온다.
-   		var inputPwd = $(this).val();
-
-   		// 정규표현식으로 검증한다.
-   		if(reg3.test(inputPwd)){
-   			makeSuccess($(this));
-   			isPwdValid = true;
-   		}else{
-   			makeError($(this));
-   			isPwdValid = false;
-   		}
-   		changeButtonState();
-   	});
-
-	function changeButtonState(){
-		if(isEmailValid && isNumberValid){
-			$('#join')
-			.removeAttr('disabled');
-		}else{
-			$('#join')
-			.attr('disabled', 'disabled');
+	angular.module("myApp", [])
+	.controller("Ctrl", function($scope, $http){
+		$scope.canUse=false;
+		$scope.checkId = {};
+		$scope.getId = function(){
+			// var inputId = angular.element(document.querySelector("#id")).val();
+			console.log($scope.checkId);
+			$http({
+				url: "checkid.do",
+				method: "get",
+				params: $scope.checkId
+			}).success(function(data){
+				$scope.canUse = data.canUse;
+				console.log($scope.canUse);
+			})
 		}
-	}
-   	// 성공 상태를 나타내주는 함수
-	// .find() : 자식요소에서 해당되는 것을 찾음
-		// .next() : $() 요소의 다음 요소
-	function makeSuccess($elem){
-		$elem		//input 요소
-		// span 요소
-		.next()
-		.removeClass('glyphicon-remove')
-		.addClass('glyphicon-ok')
-		.show()
-		// div 요소
-		.parent()
-		.removeClass('has-error')
-		.addClass('has-success')
-		// p 요소
-		.find('.help-block')
-		.hide();
-	}
-
-	// 실패 상태를 나타내주는 함수
-	function makeError($elem){
-		$elem		//input 요소
-		// span 요소
-		.next()
-		.removeClass('glyphicon-ok')
-		.addClass('glyphicon-remove')
-		.show()
-		// div 요소
-		.parent()
-		.removeClass('has-success')
-		.addClass('has-error')
-		// p 요소
-		.find('.help-block')
-		.show();
-	}
+	});
 </script>
-
 </body>
 </html>

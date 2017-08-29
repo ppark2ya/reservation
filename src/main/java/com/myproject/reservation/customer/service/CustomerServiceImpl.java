@@ -5,6 +5,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myproject.reservation.board.dto.BoardDto;
@@ -19,8 +21,7 @@ public class CustomerServiceImpl implements CustomerService{
 	private CustomerDao customerDao;
 
 	@Override
-	public ModelAndView signUp(CustomerDto custDto, BoardDto boardDto, ReservationDto resvDto,
-			HttpSession session, String url) {
+	public ModelAndView signUp(CustomerDto custDto, BoardDto boardDto, ReservationDto resvDto, String url) {
 		ModelAndView mView = new ModelAndView();
 		// 게시판에서 로그인폼으로 리다이렉트 되었을 때 필요한 변수들
 		int boardSeq = boardDto.getBoardSeq();
@@ -35,7 +36,8 @@ public class CustomerServiceImpl implements CustomerService{
 		if(url.equals("")){
 			mView.setViewName("redirect:/home.do");
 		}else{
-			session.setAttribute("id", custDto.getId());
+			((ServletRequestAttributes) RequestContextHolder
+					.getRequestAttributes()).getRequest().getSession().setAttribute("id", custDto.getId());
 			if(url.contains("/board")){
 				if(boardSeq == 0){
 					mView.setViewName("redirect:"+url);

@@ -56,6 +56,7 @@
         <div class="form-group">
           <div class="col-sm-12 text-center">
           	<button id="reservationBtn" type="submit" class="btn btn-primary">Reservation</button>
+<!--           	<a class="btn btn-primary" href="#" onClick="reservation(); return false;">Reservation</a> -->
           </div>
         </div>
     </form>

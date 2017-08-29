@@ -45,6 +45,7 @@ public class CustomerDaoImpl implements CustomerDao{
 	@Override
 	public boolean canUseId(String id) {
 		String result = session.selectOne("customer.isExistId", id);
+		System.out.println(result);
 		if(result == null){
 			return true;
 		}else{

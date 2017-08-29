@@ -41,7 +41,7 @@
 	<div class="container">
 		<div class="col-xs-8 col-xs-offset-4">
 			<a href="../home.do">
-				<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" id="headerlogo">
+				<img src="/resources/images/reservation.PNG" id="headerlogo">
 			</a>
 		</div>
 		<div class="col-xs-2"></div>
@@ -57,10 +57,16 @@
 				<form action="signin.do?url=${param.url }" method="post" id="myForm">
 			</c:when>
 			<c:when test="${param.url eq '/board/detail.do' }">
-				<form action="signin.do?url=${param.url }&boardSeq=${param.boardSeq}&keyword=${param.keyword}&condition=${param.condition}" method="post" id="myForm">
+				<form action="signin.do?url=${param.url }" method="post" id="myForm">
+				<input type="hidden" name="boardSeq" value="${param.boardSeq }"/>
+				<input type="hidden" name="keyword" value="${param.keyword }"/>
+				<input type="hidden" name="condition" value="${param.condition }"/>
 			</c:when>
 			<c:when test="${param.url eq '/reservation/reservationForm.do' }">
-				<form action="signin.do?url=${param.url }&roomSeq=${param.roomSeq}&checkIn=${param.checkIn}&checkOut=${param.checkOut}" method="post" id="myForm">
+				<form action="signin.do?url=${param.url }" method="post" id="myForm">
+				<input type="hidden" name="roomSeq" value="${param.roomSeq }"/>
+				<input type="hidden" name="checkIn" value="${param.checkIn }"/>
+				<input type="hidden" name="checkOut" value="${param.checkOut }"/>
 			</c:when>
 		</c:choose>
 				<div class="box form-group">

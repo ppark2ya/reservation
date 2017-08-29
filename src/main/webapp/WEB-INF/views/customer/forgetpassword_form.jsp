@@ -60,10 +60,16 @@
 			<form action="resetpassword.do?url=${param.url }" method="post" id="myForm">
 		</c:if>
 		<c:if test="${param.url eq '/board/detail.do' }">
-			<form action="resetpassword.do?url=${param.url }&boardSeq=${param.boardSeq}&keyword=${param.keyword}&condition=${param.condition}" method="post" id="myForm">
+			<form action="resetpassword.do?url=${param.url }" method="post" id="myForm">
+			<input type="hidden" name="boardSeq" value="${param.boardSeq }"/>
+			<input type="hidden" name="keyword" value="${param.keyword }"/>
+			<input type="hidden" name="condition" value="${param.condition }"/>
 		</c:if>
 		<c:if test="${param.url eq '/reservation/reservationForm.do' }">
-			<form action="resetpassword.do?url=${param.url }&roomSeq=${param.roomSeq}&checkIn=${param.checkIn}&checkOut=${param.checkOut}" method="post" id="myForm">
+			<form action="resetpassword.do?url=${param.url }" method="post" id="myForm">
+			<input type="hidden" name="roomSeq" value="${param.roomSeq }"/>
+			<input type="hidden" name="checkIn" value="${param.checkIn }"/>
+			<input type="hidden" name="checkOut" value="${param.checkOut }"/>
 		</c:if>
 				<div class="text-center">
 					<h2 style="margin-bottom: 30px;">Reset your password</h2>

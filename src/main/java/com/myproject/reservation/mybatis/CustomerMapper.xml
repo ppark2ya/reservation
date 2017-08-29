@@ -17,29 +17,29 @@
 		FROM customer
 		WHERE id=#{id} and pwd=#{pwd}
 	</select>
-	
+
 	<select id="getData" parameterType="String" resultType="customerDto">
 		SELECT id, pwd, name, phone, email, TO_CHAR(regdate, 'YYYY/MM/DD') as regdate
 		FROM customer
 		WHERE id=#{id}
 	</select>
-	
+
 	<insert id="insert" parameterType="customerDto">
 		INSERT INTO customer
 		(id, pwd, name, phone, email, regdate)
 		VALUES (#{id}, #{pwd}, #{name}, #{phone}, #{email}, SYSDATE)
 	</insert>
-	
+
 	<delete id="delete" parameterType="String">
 		DELETE FROM customer WHERE id=#{id}
 	</delete>
-	
+
 	<update id="update" parameterType="customerDto">
 		UPDATE customer
-		SET pwd=#{pwd}, phone=#{phone}, email=#{email} 
+		SET pwd=#{pwd}, phone=#{phone}, email=#{email}
 		WHERE id=#{id}
 	</update>
-	
+
 	<update id="modifyPwd" parameterType="customerDto">
 		UPDATE customer
 		SET pwd=#{pwd}

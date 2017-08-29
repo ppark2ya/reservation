@@ -9,7 +9,7 @@
 	</div>
 	<div id="hideLogo" class="col-xs-6 col-xs-offset-3">
 		<a href="home.do">
-			<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" alt="" />
+			<img src="/resources/images/reservation.PNG" alt="" />
 		</a>
 	</div>
 	<div class="header">

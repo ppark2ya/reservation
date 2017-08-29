@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myproject.reservation.board.dto.BoardDto;
@@ -33,7 +35,8 @@ public class CustomerController {
 
 	@RequestMapping("/customer/checkid")
 	@ResponseBody
-	public Map<String, Object> checkId(@RequestParam String inputId){
+	public Map<String, Object> checkId(@RequestParam(defaultValue="", required=false) String inputId){
+		System.out.println(inputId);
 		boolean canUse = customerService.canUseId(inputId);
 		Map<String, Object> map = new HashMap<>();
 		map.put("canUse", canUse);
@@ -44,30 +47,9 @@ public class CustomerController {
 	public ModelAndView enCryptsignUp(ModelAndView mView,
 			@ModelAttribute CustomerDto custDto,
 			@RequestParam(defaultValue="", required=false) String url,
-			BoardDto boardDto,
-			@RequestParam(value="boardSeq", required=false) Integer boardSeq,
-			@RequestParam(defaultValue="", required=false) String keyword,
-			@RequestParam(defaultValue="", required=false) String condition,
-			ReservationDto resvDto,
-			@RequestParam(value="roomSeq", required=false) Integer roomSeq,
-			@RequestParam(required=false) String checkIn,
-			@RequestParam(required=false) String checkOut,
-			HttpSession session){
-		if(boardSeq == null){
-			boardSeq = 0;
-		}
-		boardDto.setBoardSeq(boardSeq);
-		boardDto.setKeyword(keyword);
-		boardDto.setCondition(condition);
-
-		if(roomSeq == null){
-			roomSeq = 0;
-		}
-		resvDto.setRoomSeq(roomSeq);
-		resvDto.setCheckIn(checkIn);
-		resvDto.setCheckOut(checkOut);
-
-		mView = customerService.signUp(custDto, boardDto, resvDto, session, url);
+			@ModelAttribute BoardDto boardDto,
+			@ModelAttribute ReservationDto resvDto){
+		mView = customerService.signUp(custDto, boardDto, resvDto, url);
 		return mView;
 	}
 
@@ -90,14 +72,8 @@ public class CustomerController {
 	@RequestMapping("/customer/signin")
 	public ModelAndView enCryptsignIn(@ModelAttribute CustomerDto custDto,
 			@RequestParam(defaultValue="", required=false) String url,
-			BoardDto boardDto,
-			@RequestParam(value="boardSeq", required=false) Integer boardSeq,
-			@RequestParam(defaultValue="", required=false) String keyword,
-			@RequestParam(defaultValue="", required=false) String condition,
-			ReservationDto resvDto,
-			@RequestParam(value="roomSeq", required=false) Integer roomSeq,
-			@RequestParam(required=false) String checkIn,
-			@RequestParam(required=false) String checkOut,
+			@ModelAttribute BoardDto boardDto,
+			@ModelAttribute ReservationDto resvDto,
 			ModelAndView mView,
 			HttpServletRequest request,
 			HttpServletResponse response){
@@ -107,22 +83,6 @@ public class CustomerController {
 			cookie.setMaxAge(60);
 			response.addCookie(cookie);
 		}
-
-		// board 에서 signIn 으로 넘어올 때
-		if(boardSeq == null){
-			boardSeq = 0;
-		}
-		boardDto.setBoardSeq(boardSeq);
-		boardDto.setKeyword(keyword);
-		boardDto.setCondition(condition);
-
-		// reservation 에서 signIn 으로 넘어올 때
-		if(roomSeq == null){
-			roomSeq = 0;
-		}
-		resvDto.setRoomSeq(roomSeq);
-		resvDto.setCheckIn(checkIn);
-		resvDto.setCheckOut(checkOut);
 
 		mView = customerService.signIn(custDto, boardDto, resvDto, request, url);
 		return mView;

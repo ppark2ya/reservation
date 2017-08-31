@@ -52,8 +52,8 @@
 <body>
 <div class="container">
 	<div class="page-header text-center">
-       	<a href="../home.do">
-       		<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" id="headerlogo">
+       	<a href="/home.do">
+       		<img src="/resources/images/reservation.PNG" id="headerlogo">
        	</a>
     </div>
   	<!-- 글쓰기 버튼 처리 -->

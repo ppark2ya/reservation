@@ -1,0 +1,21 @@
+package com.myproject.reservation.admin.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.myproject.reservation.admin.service.AdminService;
+
+@Controller
+public class AdminController {
+
+	@Autowired
+	private AdminService adminService;
+
+	@RequestMapping("/admin/manage")
+	public ModelAndView managePage(ModelAndView mView){
+		mView.setViewName("admin/data");
+		return mView;
+	}
+}

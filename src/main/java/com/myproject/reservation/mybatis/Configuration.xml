@@ -18,6 +18,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<mapper resource="com/myproject/reservation/mybatis/BoardCommentMapper.xml"/>
 		<mapper resource="com/myproject/reservation/mybatis/RoomMapper.xml"/>
 		<mapper resource="com/myproject/reservation/mybatis/ReservationMapper.xml"/>
+		<mapper resource="com/myproject/reservation/mybatis/AdminMapper.xml"/>
 	</mappers>
 </configuration>
 

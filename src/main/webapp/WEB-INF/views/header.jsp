@@ -15,7 +15,7 @@
 	<div class="header">
 		<div id="headerlogo" class="col-xs-5">
 			<a href="home.do">
-				<img src="${pageContext.request.contextPath }/resources/images/reservation.PNG" alt="" />
+				<img src="/resources/images/reservation.PNG" alt="" />
 			</a>
 		</div>
 		<div class="col-xs-2"></div>
@@ -45,9 +45,19 @@
 						<a href="customer/signout.do">
 							<div class="menuBtn">SIGN OUT</div>
 						</a>
+				<c:choose>
+					<c:when test="${id eq 'admin' }">
+						<a href="admin/manage.do">
+							<i class="glyphicon glyphicon-user"></i>
+						</a>
+					</c:when>
+					<c:otherwise>
 						<a href="customer/mypage.do">
 							<i class="glyphicon glyphicon-user"></i>
 						</a>
+					</c:otherwise>
+				</c:choose>
+
 					</li>
 				</c:if>
 

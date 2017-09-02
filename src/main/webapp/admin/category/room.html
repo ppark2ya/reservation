@@ -1,0 +1,44 @@
+<table id="room" class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>roomSeq</th>
+			<th>roomName</th>
+			<th>roomCharge</th>
+			<th>roomDesc</th>
+			<th>availGuest</th>
+			<th>smokingYn</th>
+			<th>bathAmenityYn</th>
+			<th>wififreeYn</th>
+			<th>breakfastYn</th>
+			<th>imgSrc</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="tmp in roomList" repeat-done>
+			<td ng-bind="tmp.ROOMSEQ"></td>
+			<td ng-bind="tmp.ROOMNAME"></td>
+			<td ng-bind="tmp.ROOMCHARGE"></td>
+			<td ng-bind="tmp.ROOMDESC"></td>
+			<td ng-bind="tmp.AVAILGUEST"></td>
+			<td ng-bind="tmp.SMOKINGYN"></td>
+			<td ng-bind="tmp.BATHAMENITYYN"></td>
+			<td ng-bind="tmp.WIFIFREEYN"></td>
+			<td ng-bind="tmp.BREAKFASTYN"></td>
+			<td ng-bind="tmp.IMGSRC"></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>roomSeq</th>
+			<th>roomName</th>
+			<th>roomCharge</th>
+			<th>roomDesc</th>
+			<th>availGuest</th>
+			<th>smokingYn</th>
+			<th>bathAmenityYn</th>
+			<th>wififreeYn</th>
+			<th>breakfastYn</th>
+			<th>imgSrc</th>
+		</tr>
+	</tfoot>
+</table>

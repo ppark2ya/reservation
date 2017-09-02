@@ -1,0 +1,29 @@
+<table id="customer" class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Phone</th>
+			<th>Email</th>
+			<th>RegDate</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="tmp in customerList" repeat-done>
+			<td ng-bind="tmp.ID"></td>
+			<td ng-bind="tmp.NAME"></td>
+			<td ng-bind="tmp.PHONE"></td>
+			<td ng-bind="tmp.EMAIL"></td>
+			<td ng-bind="tmp.REGDATE"></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Phone</th>
+			<th>Email</th>
+			<th>RegDate</th>
+		</tr>
+	</tfoot>
+</table>

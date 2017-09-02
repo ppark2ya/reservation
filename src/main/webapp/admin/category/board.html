@@ -1,0 +1,35 @@
+<table id="board" class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>boardSeq</th>
+			<th>writer</th>
+			<th>title</th>
+			<th>category</th>
+			<th>content</th>
+			<th>viewCount</th>
+			<th>regDate</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="tmp in boardList" repeat-done>
+			<td ng-bind="tmp.BOARDSEQ"></td>
+			<td ng-bind="tmp.WRITER"></td>
+			<td ng-bind="tmp.TITLE"></td>
+			<td ng-bind="tmp.CATEGORY"></td>
+			<td ng-bind="tmp.CONTENT"></td>
+			<td ng-bind="tmp.VIEWCOUNT"></td>
+			<td ng-bind="tmp.REGDATE"></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>boardSeq</th>
+			<th>writer</th>
+			<th>title</th>
+			<th>category</th>
+			<th>content</th>
+			<th>viewCount</th>
+			<th>regDate</th>
+		</tr>
+	</tfoot>
+</table>

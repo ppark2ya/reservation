@@ -1,0 +1,38 @@
+<table id="reservation" class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>rvSeq</th>
+			<th>ID</th>
+			<th>roomSeq</th>
+			<th>checkIn</th>
+			<th>checkOut</th>
+			<th>amount</th>
+			<th>payment</th>
+			<th>numofRvcust</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr ng-repeat="tmp in resvList" repeat-done>
+			<td ng-bind="tmp.RVSEQ"></td>
+			<td ng-bind="tmp.ID"></td>
+			<td ng-bind="tmp.ROOMSEQ"></td>
+			<td ng-bind="tmp.CHECKIN"></td>
+			<td ng-bind="tmp.CHECKOUT"></td>
+			<td ng-bind="tmp.AMOUNT"></td>
+			<td ng-bind="tmp.PAYMENT"></td>
+			<td ng-bind="tmp.NUMOFRVCUST"></td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr>
+			<th>rvSeq</th>
+			<th>ID</th>
+			<th>roomSeq</th>
+			<th>checkIn</th>
+			<th>checkOut</th>
+			<th>amount</th>
+			<th>payment</th>
+			<th>numofRvcust</th>
+		</tr>
+	</tfoot>
+</table>

@@ -1,5 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="admin">
+	<!-- 고객 리스트 출력 -->
+	<select id="customerList" resultType="java.util.HashMap">
+		SELECT
+			ID,
+			NAME,
+			PHONE,
+			EMAIL,
+			TO_CHAR(REGDATE, 'YYYY/MM/DD') AS REGDATE
+		FROM
+			CUSTOMER
+	</select>
 
+	<!-- clob 데이터를 처리하기 위해서 리턴타입을 String 으로 바꿔준다 -->
+	<resultMap type="HashMap" id="boardMap">
+		<result property="BOARD_SEQ" column="BOARD_SEQ"/>
+		<result property="WRITER" column="WRITER"/>
+		<result property="TITLE" column="TITLE"/>
+		<result property="CATEGORY" column="CATEGORY"/>
+		<result property="CONTENT" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="VIEWCOUNT" column="VIEWCOUNT"/>
+		<result property="REGDATE" column="REGDATE"/>
+	</resultMap>
+
+	<select id="boardList" resultMap="boardMap">
+		SELECT
+			BOARD_SEQ AS boardSeq,
+			WRITER,
+			TITLE,
+			CATEGORY,
+			CONTENT,
+			VIEWCOUNT,
+			TO_CHAR(REGDATE, 'YYYY/MM/DD') AS REGDATE
+		FROM
+			BOARD
+	</select>
+
+	<select id="roomList" resultType="java.util.HashMap">
+		SELECT
+			ROOM_SEQ AS roomSeq,
+			ROOM_NAME AS roomName,
+			ROOM_CHARGE As roomCharge,
+			ROOM_DESC AS roomDesc,
+			AVAIL_GUEST AS availGuest,
+			SMOKING_YN AS smokingYn,
+			BATHAMENITY_YN AS bathAmenityYn,
+			WIFIFREE_YN AS wifiFreeYn,
+			BREAKFAST_YN AS breakfastYn,
+			IMG_SRC AS imgSrc
+		FROM
+			ROOM
+	</select>
+
+	<select id="resvList" resultType="java.util.HashMap">
+		SELECT
+			RV_SEQ AS rvSeq,
+			ID,
+			ROOM_SEQ AS roomSeq,
+			CHECKIN,
+			CHECKOUT,
+			AMOUNT,
+			PAYMENT,
+			NUMOF_RVCUST AS numofRvcust
+		FROM
+			RESERVATION
+	</select>
 </mapper>

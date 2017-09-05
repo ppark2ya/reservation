@@ -6,15 +6,24 @@
 			<th>Phone</th>
 			<th>Email</th>
 			<th>RegDate</th>
+			<th>Action</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
+		<!-- Map 데이터를 json으로 받을 때 key 값은 무조건 대문자로 변환된다 -->
 		<tr ng-repeat="tmp in customerList" repeat-done>
 			<td ng-bind="tmp.ID"></td>
 			<td ng-bind="tmp.NAME"></td>
 			<td ng-bind="tmp.PHONE"></td>
 			<td ng-bind="tmp.EMAIL"></td>
 			<td ng-bind="tmp.REGDATE"></td>
+			<td>
+				<input type="button" value="Update" class="btn btn-info" ng-click="updateRow(tmp.ID)"/>
+			</td>
+			<td>
+				<input type="button" value="Remove" class="btn btn-danger" ng-click="removeRow(tmp.ID)"/>
+			</td>
 		</tr>
 	</tbody>
 	<tfoot>
@@ -24,6 +33,8 @@
 			<th>Phone</th>
 			<th>Email</th>
 			<th>RegDate</th>
+			<th>Action</th>
+			<th>Action</th>
 		</tr>
 	</tfoot>
 </table>

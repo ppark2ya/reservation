@@ -10,7 +10,8 @@
 			<th>bathAmenityYn</th>
 			<th>wififreeYn</th>
 			<th>breakfastYn</th>
-			<th>imgSrc</th>
+			<th>Action</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -24,7 +25,12 @@
 			<td ng-bind="tmp.BATHAMENITYYN"></td>
 			<td ng-bind="tmp.WIFIFREEYN"></td>
 			<td ng-bind="tmp.BREAKFASTYN"></td>
-			<td ng-bind="tmp.IMGSRC"></td>
+			<td>
+				<input type="button" value="Update" class="btn btn-info" ng-click="updateRow(tmp.ROOMSEQ)"/>
+			</td>
+			<td>
+				<input type="button" value="Remove" class="btn btn-danger" ng-click="removeRow(tmp.ROOMSEQ)"/>
+			</td>
 		</tr>
 	</tbody>
 	<tfoot>
@@ -38,7 +44,8 @@
 			<th>bathAmenityYn</th>
 			<th>wififreeYn</th>
 			<th>breakfastYn</th>
-			<th>imgSrc</th>
+			<th>Action</th>
+			<th>Action</th>
 		</tr>
 	</tfoot>
 </table>

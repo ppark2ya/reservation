@@ -8,6 +8,8 @@
 			<th>content</th>
 			<th>viewCount</th>
 			<th>regDate</th>
+			<th>Action</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -19,6 +21,12 @@
 			<td ng-bind="tmp.CONTENT"></td>
 			<td ng-bind="tmp.VIEWCOUNT"></td>
 			<td ng-bind="tmp.REGDATE"></td>
+			<td>
+				<input type="button" value="Update" class="btn btn-info" ng-click="updateRow(tmp.BOARDSEQ)"/>
+			</td>
+			<td>
+				<input type="button" value="Remove" class="btn btn-danger" ng-click="removeRow(tmp.BOARDSEQ)"/>
+			</td>
 		</tr>
 	</tbody>
 	<tfoot>
@@ -30,6 +38,8 @@
 			<th>content</th>
 			<th>viewCount</th>
 			<th>regDate</th>
+			<th>Action</th>
+			<th>Action</th>
 		</tr>
 	</tfoot>
 </table>

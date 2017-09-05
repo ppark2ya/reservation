@@ -14,25 +14,43 @@ public class AdminDaoImpl implements AdminDao{
 
 	@Override
 	public List<Map<String, Object>> customerList() {
-		List<Map<String, Object>> list = session.selectList("admin.customerList");
-		return list;
+		return session.selectList("admin.customerList");
 	}
 
 	@Override
 	public List<Map<String, Object>> boardList() {
-		List<Map<String, Object>> list = session.selectList("admin.boardList");
-		return list;
+		return session.selectList("admin.boardList");
 	}
 
 	@Override
 	public List<Map<String, Object>> roomList() {
-		List<Map<String, Object>> list = session.selectList("admin.roomList");
-		return list;
+		return session.selectList("admin.roomList");
 	}
 
 	@Override
 	public List<Map<String, Object>> resvList() {
-		List<Map<String, Object>> list = session.selectList("admin.resvList");
-		return list;
+		return session.selectList("admin.resvList");
+	}
+
+	@Override
+	public void custRemoveRow(String id) {
+		session.delete("admin.custRemoveRow", id);
+
+	}
+
+	@Override
+	public void boardRemoveRow(int boardSeq) {
+		session.delete("admin.boardRemoveRow", boardSeq);
+	}
+
+	@Override
+	public void roomRemoveRow(int roomSeq) {
+		session.delete("admin.roomRemoveRow", roomSeq);
+
+	}
+
+	@Override
+	public void resvRemoveRow(int rvSeq) {
+		session.delete("admin.resvRemoveRow", rvSeq);
 	}
 }

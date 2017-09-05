@@ -35,46 +35,177 @@ myApp.config(function($routeProvider){
 
 myApp.controller("customerCtrl", function($scope, $http){
 	$http({
-		url: "customerList.do",
+		url: "customerList.do?type=cust",
 		method: "get"
 	})
 	.success(function(data){
 		console.log(data);
+		// List<Map<key, value>> 형태의 json 데이터를 받는다
+		// ex : [{PHONE=010-2323-1234, REGDATE=2017/08/06, ID=park, EMAIL=park@naver.com, NAME=park},{...}]
 		$scope.customerList = data;
 	});
+
+	$scope.removeRow = function(id){
+		var isRemove = confirm("삭제하시겠습니까?");
+		if(isRemove){
+			var index = -1;
+			var custArr = eval($scope.customerList);
+			for(var i = 0; i < custArr.length; i++){
+				if(custArr[i].ID === id){
+					$scope.id = custArr[i].ID;
+					index = i;
+					break;
+				}
+			}
+			if(index === -1){
+				alert("something gone wrong!");
+			}
+
+			$scope.customerList.splice(index, 1);
+			console.log($scope.id);
+
+			$http({
+				url: "custRemoveRow.do",
+				method: "post",
+				data:{id:$scope.id},
+				headers:{
+					"Content-Type":"application/json"
+				}
+			})
+			.success(function(data){
+				console.log("success");
+			})
+		}
+	}
 });
 
 myApp.controller("boardCtrl", function($scope, $http){
 	$http({
-		url: "boardList.do",
+		url: "boardList.do?type=board",
 		method: "get"
 	})
 	.success(function(data){
 		console.log(data);
 		$scope.boardList = data;
 	});
+
+	$scope.removeRow = function(boardSeq){
+		var isRemove = confirm("삭제하시겠습니까?");
+		if(isRemove){
+			var index = -1;
+			var boardArr = eval($scope.boardList);
+			for(var i = 0; i < boardArr.length; i++){
+				if(boardArr[i].BOARDSEQ === boardSeq){
+					$scope.boardSeq = boardArr[i].BOARDSEQ;
+					index = i;
+					break;
+				}
+			}
+			if(index === -1){
+				alert("something gone wrong!");
+			}
+
+			$scope.boardList.splice(index, 1);
+			console.log($scope.boardSeq);
+
+			$http({
+				url: "boardRemoveRow.do",
+				method: "post",
+				data:{boardSeq:$scope.boardSeq},
+				headers:{
+					"Content-Type":"application/json"
+				}
+			})
+			.success(function(data){
+				console.log("success");
+			})
+		}
+	}
 });
 
 myApp.controller("roomCtrl", function($scope, $http){
 	$http({
-		url: "roomList.do",
+		url: "roomList.do?type=room",
 		method: "get"
 	})
 	.success(function(data){
 		console.log(data);
 		$scope.roomList = data;
 	});
+
+	$scope.removeRow = function(roomSeq){
+		var index = -1;
+		var roomArr = eval($scope.roomList);
+		for(var i = 0; i < roomArr.length; i++){
+			if(roomArr[i].ROOMSEQ === roomSeq){
+				$scope.roomSeq = boardArr[i].ROOMSEQ;
+				index = i;
+				break;
+			}
+		}
+		if(index === -1){
+			alert("something gone wrong!");
+		}
+
+		$scope.roomList.splice(index, 1);
+		console.log($scope.roomSeq);
+
+		$http({
+			url: "roomRemoveRow.do",
+			method: "post",
+			data:{roomSeq:$scope.roomSeq},
+			headers:{
+				"Content-Type":"application/json"
+			}
+		})
+		.success(function(data){
+			console.log("success");
+		})
+	}
 });
 
 myApp.controller("resvCtrl", function($scope, $http){
 	$http({
-		url: "resvList.do",
+		url: "resvList.do?type=resv",
 		method: "get"
 	})
 	.success(function(data){
 		console.log(data);
 		$scope.resvList = data;
 	});
+
+	$scope.removeRow = function(rvSeq){
+		var isRemove = confirm("삭제하시겠습니까?");
+		if(isRemove){
+			var index = -1;
+			var resvArr = eval($scope.resvList);
+			for(var i = 0; i < resvArr.length; i++){
+				if(resvArr[i].RVSEQ === rvSeq){
+					$scope.rvSeq = resvArr[i].RVSEQ;
+					index = i;
+					break;
+				}
+			}
+			if(index === -1){
+				alert("something gone wrong!");
+			}
+
+			$scope.resvList.splice(index, 1);
+			console.log($scope.rvSeq);
+
+			$http({
+				url: "resvRemoveRow.do",
+				method: "post",
+				data:{rvSeq:$scope.rvSeq},
+				headers:{
+					"Content-Type":"application/json"
+				}
+			})
+			.success(function(data){
+				console.log("success");
+			})
+		}
+	}
 });
 /*
 1. 디렉티브란?

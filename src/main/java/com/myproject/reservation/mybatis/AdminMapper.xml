@@ -13,6 +13,11 @@
 			CUSTOMER
 	</select>
 
+	<delete id="custRemoveRow" parameterType="java.lang.String">
+		DELETE FROM customer
+		WHERE id=#{id}
+	</delete>
+
 	<!-- clob 데이터를 처리하기 위해서 리턴타입을 String 으로 바꿔준다 -->
 	<resultMap type="HashMap" id="boardMap">
 		<result property="BOARD_SEQ" column="BOARD_SEQ"/>
@@ -37,6 +42,11 @@
 			BOARD
 	</select>
 
+	<delete id="boardRemoveRow" parameterType="int">
+		DELETE FROM board
+		WHERE board_seq=#{boardSeq}
+	</delete>
+
 	<select id="roomList" resultType="java.util.HashMap">
 		SELECT
 			ROOM_SEQ AS roomSeq,
@@ -53,6 +63,11 @@
 			ROOM
 	</select>
 
+	<delete id="roomRemoveRow" parameterType="int">
+		DELETE FROM room
+		WHERE room_seq=#{roomSeq}
+	</delete>
+
 	<select id="resvList" resultType="java.util.HashMap">
 		SELECT
 			RV_SEQ AS rvSeq,
@@ -66,4 +81,9 @@
 		FROM
 			RESERVATION
 	</select>
+
+	<delete id="resvRemoveRow" parameterType="int">
+		DELETE FROM reservation
+		WHERE rv_seq=#{rvSeq}
+	</delete>
 </mapper>

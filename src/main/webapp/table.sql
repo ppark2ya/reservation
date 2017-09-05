@@ -9,23 +9,33 @@ create table customer(
 
 create table board(
 	board_seq	number primary key, 	-- 게시판 번호
-	writer		varchar2(30) references customer(id) not null,	-- 고객 아이디(fk)
+	writer		varchar2(30),	-- 고객 아이디(fk)
 	title		varchar2(100) not null,	-- 글 제목
 	category	varchar2(30) not null,	-- 글 카테고리
 	content		clob,					-- 글 내용
     viewCount   number,					-- 조회수
 	regdate		date not null			-- 글 작성일
 );
+ALTER TABLE board
+ADD CONSTRAINT fk_board_writer FOREIGN KEY(writer)
+REFERENCES customer(id) ON DELETE CASCADE
 
 create table board_comment(
-	board_seq	number primary key,
-	writer		varchar2(30) references customer(id) not null,
+	board_seq	number,
+	writer		varchar2(30),
 	content		varchar2(500),
 	target_id	varchar2(100),
 	ref_group	number,
 	comment_group number,
 	regdate		date
 );
+ALTER TABLE board_comment
+ADD CONSTRAINT fk_board_seq FOREIGN KEY(board_seq)
+REFERENCES board(board_seq) ON DELETE CASCADE
+
+ALTER TABLE board_comment
+ADD CONSTRAINT fk_board_writer_cm FOREIGN KEY(writer)
+REFERENCES customer(id) ON DELETE CASCADE
 
 create sequence room_seq;
 create table room(
@@ -40,6 +50,7 @@ create table room(
     breakfast_yn	char(2),					-- 조식 포함 여부(y/n)
     img_src	varchar2(200)
 );
+
 -- 방 목록들
 insert into room values(room_seq.NEXTVAL,'c101',82000,'',2,'n','n','n','n','/resources/images/cheap_room.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
 insert into room values(room_seq.NEXTVAL,'c102',82000,'',2,'n','n','n','n','/resources/images/cheap_room.jpg+/resources/images/cheap_bath.jpg+/resources/images/cheap_living.jpg');
@@ -92,10 +103,14 @@ insert into room values(room_seq.NEXTVAL,'s3',1290000,'',6,'n','y','y','y','/res
 
 -- 객실 예약 가능 여부를 저장하는 테이블
 create table room_order(
-	room_seq number references room(room_seq),	-- 객실 고유번호(fk)
+	room_seq number,	-- 객실 고유번호(fk)
 	resv_date date,							-- 모든 날짜(1년치)
 	resv_yn char(2)							-- 객실 사용가능 여부(y면 사용 가능)
 );
+ALTER TABLE room_order
+ADD CONSTRAINT fk_room_seq FOREIGN KEY(room_seq)
+REFERENCES room(room_seq) ON DELETE CASCADE
+
 -- 지금날짜로부터 1년치의 모든 객실 예약 데이터 insert
 declare
 begin
@@ -122,11 +137,11 @@ create table reservation(
 
 ALTER TABLE reservation
 ADD CONSTRAINT fk_cust_id FOREIGN KEY(id)
-REFERENCES customer(id);
+REFERENCES customer(id) ON DELETE CASCADE;
 
 ALTER TABLE reservation
 ADD CONSTRAINT fk_room_num FOREIGN KEY(room_seq)
-REFERENCES room(room_seq);
+REFERENCES room(room_seq) ON DELETE CASCADE;
 
 create table grade(
     room_grade  varchar2(20),			-- 객실 등급(cheap, popular, luxury)

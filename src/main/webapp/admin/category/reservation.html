@@ -9,6 +9,8 @@
 			<th>amount</th>
 			<th>payment</th>
 			<th>numofRvcust</th>
+			<th>Action</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -21,6 +23,12 @@
 			<td ng-bind="tmp.AMOUNT"></td>
 			<td ng-bind="tmp.PAYMENT"></td>
 			<td ng-bind="tmp.NUMOFRVCUST"></td>
+			<td>
+				<input type="button" value="Update" class="btn btn-info" ng-click="updateRow(tmp.RVSEQ)"/>
+			</td>
+			<td>
+				<input type="button" value="Remove" class="btn btn-danger" ng-click="removeRow(tmp.RVSEQ)"/>
+			</td>
 		</tr>
 	</tbody>
 	<tfoot>
@@ -33,6 +41,8 @@
 			<th>amount</th>
 			<th>payment</th>
 			<th>numofRvcust</th>
+			<th>Action</th>
+			<th>Action</th>
 		</tr>
 	</tfoot>
 </table>
